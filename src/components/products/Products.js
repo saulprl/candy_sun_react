@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import AvailableProducts from "./AvailableProducts";
 import ProductsSummary from "./ProductsSummary";
 
 const Products = (props) => {
@@ -12,6 +13,7 @@ const Products = (props) => {
       }}
     >
       <ProductsSummary />
+      <AvailableProducts />
     </Box>
   );
 };
