@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { getFirestore } from "firebase/firestore";
+import { FirestoreProvider, useFirebaseApp } from "reactfire";
 
 import Header from "./components/layout/Header";
+import Products from "./components/products/Products";
 
 import styles from "./App.module.css";
-import Products from "./components/products/Products";
 
 const App = () => {
   const drawerWidth = 240;
   const [darkMode, setDarkMode] = useState(true);
+  const firestoreInstance = getFirestore(useFirebaseApp());
 
   const theme = createTheme({
     palette: {
@@ -50,11 +53,13 @@ const App = () => {
 
   return (
     // <div className={styles["App-header"]}>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header drawerWidth={drawerWidth} onToggleTheme={toggleThemeHandler} />
-      <Products drawerWidth={drawerWidth} />
-    </ThemeProvider>
+    <FirestoreProvider sdk={firestoreInstance}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header drawerWidth={drawerWidth} onToggleTheme={toggleThemeHandler} />
+        <Products drawerWidth={drawerWidth} />
+      </ThemeProvider>
+    </FirestoreProvider>
     // </div>
   );
 };
