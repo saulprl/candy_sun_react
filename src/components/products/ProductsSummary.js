@@ -10,10 +10,8 @@ const ProductsSummary = (props) => {
           position: "relative",
           marginTop: "-15rem",
           textAlign: "center",
-          ml: "auto",
           mr: "auto",
-          // ml: "1rem",
-          // mr: "1rem",
+          ml: "auto",
         }}
       >
         <CardContent>
