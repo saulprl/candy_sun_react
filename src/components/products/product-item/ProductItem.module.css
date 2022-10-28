@@ -1,0 +1,23 @@
+.product {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  align-items: flex-start;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.header span {
+  font-size: 1.2rem;
+}
+
+.details {
+  display: flex;
+}
+
+.details span {
+  font-size: 1.3rem;
+}
