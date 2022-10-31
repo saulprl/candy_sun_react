@@ -1,4 +1,11 @@
-import { Box, Chip, Divider, ListItem, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Divider,
+  ListItem,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
 import styles from "./ProductItem.module.css";
 
@@ -23,7 +30,9 @@ const ProductItem = (props) => {
             {product.title}
           </Typography>
           <Box component="div">
-            <Chip variant="outlined" label={`x${product.quantity}`} />
+            <Tooltip title="Quantity" placement="right-start">
+              <Chip variant="outlined" label={`x${product.quantity}`} />
+            </Tooltip>
             <Chip
               variant="outlined"
               color="primary"
@@ -40,12 +49,17 @@ const ProductItem = (props) => {
           className={styles.details}
           sx={{ display: { xs: "none", sm: "flex" } }}
         >
-          <Chip
-            variant="outlined"
-            color="primary"
-            label={`$${product.price}`}
-          />
-          <Chip variant="outlined" color="error" label={`$${product.cost}`} />
+          <Tooltip title="Price">
+            <Chip
+              variant="outlined"
+              color="primary"
+              label={`$${product.price}`}
+              sx={{ mr: "0.5rem" }}
+            />
+          </Tooltip>
+          <Tooltip title="Cost">
+            <Chip variant="outlined" color="error" label={`$${product.cost}`} />
+          </Tooltip>
           {/* <Typography variant="body1" component="span">
             ${product.price}
           </Typography> */}
