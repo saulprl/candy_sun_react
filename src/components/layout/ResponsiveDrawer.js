@@ -9,6 +9,7 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -38,13 +39,17 @@ const ResponsiveDrawer = (props) => {
         <Typography variant="h6" sx={{ color: theme.palette.action.main }}>
           Candy Sun
         </Typography>
-        <IconButton onClick={props.onToggleTheme}>
-          {theme.palette.mode === "dark" ? (
-            <DarkModeIcon />
-          ) : (
-            <LightModeIcon color="action" />
-          )}
-        </IconButton>
+        <Tooltip
+          title={theme.palette.mode === "dark" ? "Light mode" : "Dark mode"}
+        >
+          <IconButton onClick={props.onToggleTheme}>
+            {theme.palette.mode === "dark" ? (
+              <LightModeIcon />
+            ) : (
+              <DarkModeIcon color="action" />
+            )}
+          </IconButton>
+        </Tooltip>
       </Toolbar>
       <Divider />
       {["Home", "Products", "Employees", "Sales"].map((item, index) => (
