@@ -14,7 +14,6 @@ import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 
-
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;
   const theme = useTheme();
@@ -54,7 +53,7 @@ const Header = (props) => {
             <Typography variant="h6" flex="1" component="div">
               Candy Sun
             </Typography>
-            <Button variant="text" color="action">
+            <Button onClick={props.onShowLogin} variant="text" color="action">
               Login
             </Button>
           </Toolbar>
