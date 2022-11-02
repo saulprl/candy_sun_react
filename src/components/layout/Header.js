@@ -7,16 +7,19 @@ import {
   Typography,
   Button,
   useTheme,
+  Skeleton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
 import ResponsiveDrawer from "./ResponsiveDrawer";
+import { useSigninCheck } from "reactfire";
 
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;
   const theme = useTheme();
+  const { status, data: signInCheckResult } = useSigninCheck();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleDrawerHandler = () => {
@@ -53,9 +56,24 @@ const Header = (props) => {
             <Typography variant="h6" flex="1" component="div">
               Candy Sun
             </Typography>
-            <Button onClick={props.onShowLogin} variant="text" color="action">
-              Login
-            </Button>
+            {status === "loading" && (
+              <Skeleton
+                variant="rounded"
+                height="1.5rem"
+                width="6rem"
+                animation="wave"
+              />
+            )}
+            {status === "success" && !signInCheckResult.signedIn && (
+              <Button onClick={props.onShowLogin} variant="text" color="action">
+                Login
+              </Button>
+            )}
+            {status === "success" && signInCheckResult.signedIn && (
+              <Button onClick={props.onLogout} variant="text" color="action">
+                Log out
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </header>
