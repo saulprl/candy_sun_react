@@ -1,71 +1,146 @@
+import { useState } from "react";
+
 import {
   Box,
+  Button,
   Chip,
+  Collapse,
   Divider,
-  ListItem,
+  IconButton,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
+import { ExpandMore, ExpandLess, Edit, Delete } from "@mui/icons-material";
 
 import styles from "./ProductItem.module.css";
 
 const ProductItem = (props) => {
   const { product } = props;
+  const [expanded, setExpanded] = useState(false);
+  const theme = useTheme();
+
+  const chipVariant = theme.palette.mode === "dark" ? "outlined" : "contained";
+
+  const toggleDetails = (event) => {
+    setExpanded((prevState) => !prevState);
+  };
 
   return (
     <>
-      <ListItem
-        // className={styles.product}
-        sx={{
-          height: { sm: "5.5rem" },
-          display: "flex",
-          flexDirection: { sm: "column" },
-          justifyContent: { sm: "space-between" },
-          alignContent: { sm: "flex-start" },
-          alignItems: { sm: "flex-start" },
-        }}
-      >
+      <Box component="li">
         <Box component="div" className={styles.header}>
-          <Typography variant="h5" sx={{ mr: "0.5rem" }}>
-            {product.title}
-          </Typography>
-          <Box component="div">
-            <Tooltip title="Quantity" placement="right-start">
-              <Chip variant="outlined" label={`x${product.quantity}`} />
-            </Tooltip>
-            <Chip
-              variant="outlined"
-              color="primary"
-              label={`$${product.price}`}
+          <Tooltip title="Quantity" placement="top">
+            <Chip variant={chipVariant} label={`x${product.quantity}`} />
+          </Tooltip>
+          <Typography variant="h6">{product.title}</Typography>
+          <IconButton onClick={toggleDetails}>
+            {expanded ? <ExpandLess /> : <ExpandMore />}
+          </IconButton>
+        </Box>
+        <Collapse in={expanded}>
+          <Box component="div" className={styles.details}>
+            <Box
+              component="div"
+              className={styles["details-row"]}
+              sx={{ justifyContent: { sm: "space-between" } }}
+            >
+              <Tooltip title="Calories">
+                <Chip
+                  variant={chipVariant}
+                  color="info"
+                  label={product.calories}
+                />
+              </Tooltip>
+              <Tooltip title="Price">
+                <Chip
+                  variant={chipVariant}
+                  color="primary"
+                  label={`$${product.price}`}
+                />
+              </Tooltip>
+              <Tooltip title="Cost">
+                <Chip
+                  variant={chipVariant}
+                  color="error"
+                  label={`$${product.cost}`}
+                />
+              </Tooltip>
+              <Tooltip
+                title="Purchase date"
+                sx={{ display: { xs: "none", sm: "inline-flex" } }}
+              >
+                <Chip
+                  variant={chipVariant}
+                  color="info"
+                  label={product.dateOfPurchase}
+                />
+              </Tooltip>
+              <Tooltip
+                title="Expiration date"
+                sx={{ display: { xs: "none", sm: "inline-flex" } }}
+              >
+                <Chip
+                  variant={chipVariant}
+                  color="warning"
+                  label={product.expirationDate}
+                />
+              </Tooltip>
+            </Box>
+            <Box
+              component="div"
+              className={styles["details-row"]}
               sx={{ display: { sm: "none" } }}
-            />
+            >
+              <Tooltip title="Purchase date">
+                <Chip
+                  variant={chipVariant}
+                  color="info"
+                  label={product.dateOfPurchase}
+                />
+              </Tooltip>
+              <Tooltip title="Expiration date">
+                <Chip
+                  variant={chipVariant}
+                  color="warning"
+                  label={product.expirationDate}
+                />
+              </Tooltip>
+            </Box>
           </Box>
-          {/* <Typography variant="h5" component="span">
-          x{product.quantity}
-        </Typography> */}
-        </Box>
-        <Box
-          component="div"
-          className={styles.details}
-          sx={{ display: { xs: "none", sm: "flex" } }}
-        >
-          <Tooltip title="Price">
-            <Chip
-              variant="outlined"
-              color="primary"
-              label={`$${product.price}`}
-              sx={{ mr: "0.5rem" }}
-            />
-          </Tooltip>
-          <Tooltip title="Cost">
-            <Chip variant="outlined" color="error" label={`$${product.cost}`} />
-          </Tooltip>
-          {/* <Typography variant="body1" component="span">
-            ${product.price}
-          </Typography> */}
-        </Box>
-      </ListItem>
-      <Divider />
+          <Box
+            component="div"
+            className={styles.actions}
+            sx={{
+              display: { sm: "none" },
+              justifyContent: { xs: "flex-end" },
+            }}
+          >
+            <IconButton color="warning" edge="end">
+              <Edit />
+            </IconButton>
+            <IconButton color="error" edge="end">
+              <Delete />
+            </IconButton>
+          </Box>
+          <Box
+            component="div"
+            className={styles.actions}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              justifyContent: { sm: "space-evenly" },
+            }}
+          >
+            <Button variant="contained" color="secondary" startIcon={<Edit />}>
+              Edit
+            </Button>
+            <Button variant="contained" color="error" startIcon={<Delete />}>
+              Delete
+            </Button>
+          </Box>
+        </Collapse>
+      </Box>
+      <Divider sx={{ mb: "0.3rem" }} />
     </>
   );
 };
