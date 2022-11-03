@@ -1,13 +1,8 @@
-.product {
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
-  align-items: flex-start;
-}
-
 .header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header span {
@@ -15,9 +10,29 @@
 }
 
 .details {
+  margin-top: 0.5rem;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.details-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 0.5rem;
 }
 
 .details span {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0.3rem;
+}
+
+.actions :first-child {
+  margin-right: 0.5rem;
 }
