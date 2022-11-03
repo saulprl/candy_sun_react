@@ -48,6 +48,7 @@ const AvailableProducts = (props) => {
         mt: "1rem",
         mr: "auto",
         ml: "auto",
+        mb: "1rem",
       }}
     >
       <CardContent>
