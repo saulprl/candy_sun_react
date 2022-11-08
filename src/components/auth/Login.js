@@ -12,9 +12,15 @@ import {
   Button,
   Alert,
   Collapse,
+  OutlinedInput,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 
 import StyledCard from "../ui/StyledCard";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = (props) => {
   const history = useHistory();
@@ -24,6 +30,7 @@ const Login = (props) => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const emailChangeHandler = (event) => {
     setError("");
@@ -53,6 +60,10 @@ const Login = (props) => {
         setError("Authentication error: incorrect password.");
       }
     }
+  };
+
+  const showPasswordHandler = (event) => {
+    setShowPassword((prevState) => !prevState);
   };
 
   return (
@@ -87,7 +98,28 @@ const Login = (props) => {
                   required
                   sx={{ mb: "1rem" }}
                 />
-                <TextField
+                <FormControl sx={{ mb: "1rem" }}>
+                  <InputLabel htmlFor="password">Password</InputLabel>
+                  <OutlinedInput
+                    inputRef={passwordInputRef}
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    onChange={passwordChangeHandler}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Toggle password visibility"
+                          onClick={showPasswordHandler}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                  />
+                </FormControl>
+                {/* <TextField
                   inputRef={passwordInputRef}
                   onChange={passwordChangeHandler}
                   id="password"
@@ -95,7 +127,7 @@ const Login = (props) => {
                   type="password"
                   required
                   sx={{ mb: "1rem" }}
-                />
+                /> */}
               </Box>
               <Collapse in={error.trim() !== ""}>
                 <Box sx={{ mb: "1rem" }}>
