@@ -15,7 +15,7 @@ import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useSigninCheck } from "reactfire";
-import { Login, Logout } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;
@@ -65,7 +65,7 @@ const Header = (props) => {
                 animation="wave"
               />
             )}
-            {status === "success" && !signInCheckResult.signedIn && (
+            {/* {status === "success" && !signInCheckResult.signedIn && (
               <IconButton
                 onClick={props.onShowLogin}
                 variant="text"
@@ -73,7 +73,7 @@ const Header = (props) => {
               >
                 <Login />
               </IconButton>
-            )}
+            )} */}
             {status === "success" && signInCheckResult.signedIn && (
               <Tooltip title="Log out">
                 <IconButton
