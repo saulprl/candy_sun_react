@@ -8,6 +8,7 @@ import {
   Button,
   useTheme,
   Skeleton,
+  Tooltip,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -15,6 +16,7 @@ import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useSigninCheck } from "reactfire";
+import { Login, Logout } from "@mui/icons-material";
 
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;
@@ -65,14 +67,24 @@ const Header = (props) => {
               />
             )}
             {status === "success" && !signInCheckResult.signedIn && (
-              <Button onClick={props.onShowLogin} variant="text" color="action">
-                Login
-              </Button>
+              <IconButton
+                onClick={props.onShowLogin}
+                variant="text"
+                color="action"
+              >
+                <Login />
+              </IconButton>
             )}
             {status === "success" && signInCheckResult.signedIn && (
-              <Button onClick={props.onLogout} variant="text" color="action">
-                Log out
-              </Button>
+              <Tooltip title="Log out">
+                <IconButton
+                  onClick={props.onLogout}
+                  variant="text"
+                  color="action"
+                >
+                  <Logout />
+                </IconButton>
+              </Tooltip>
             )}
           </Toolbar>
         </AppBar>
