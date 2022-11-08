@@ -7,18 +7,15 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 
 import LoginPage from "./pages/Login";
+import ProductsPage from "./pages/ProductsPage";
 
-import LoginModal from "./components/auth/Login";
 import Header from "./components/layout/Header";
-import Products from "./components/products/Products";
 import ErrorBoundary from "./components/error/ErrorBoundary";
-
-import styles from "./App.module.css";
 
 const App = () => {
   const drawerWidth = 240;
   const [darkMode, setDarkMode] = useState(true);
-  const [showLogin, setShowLogin] = useState(false);
+  // const [showLogin, setShowLogin] = useState(false);
 
   const firebaseApp = useFirebaseApp();
   const authInstance = getAuth(firebaseApp);
@@ -62,13 +59,13 @@ const App = () => {
     setDarkMode((prevState) => !prevState);
   };
 
-  const showLoginHandler = (event) => {
-    setShowLogin(true);
-  };
+  // const showLoginHandler = (event) => {
+  //   setShowLogin(true);
+  // };
 
-  const closeLoginHandler = (event) => {
-    setShowLogin(false);
-  };
+  // const closeLoginHandler = (event) => {
+  //   setShowLogin(false);
+  // };
 
   const logoutHandler = async (event) => {
     signOut(authInstance);
@@ -81,25 +78,17 @@ const App = () => {
         <FirestoreProvider sdk={firestoreInstance}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
+            <Header
+              drawerWidth={drawerWidth}
+              onLogout={logoutHandler}
+              onToggleTheme={toggleThemeHandler}
+            />
             <Switch>
               <Route path="/login" exact>
                 <LoginPage />
               </Route>
-              <Route path="/" exact>
-                {showLogin && (
-                  <LoginModal
-                    open={showLogin}
-                    drawerWidth={drawerWidth}
-                    onClose={closeLoginHandler}
-                  />
-                )}
-                <Header
-                  drawerWidth={drawerWidth}
-                  onLogout={logoutHandler}
-                  onShowLogin={showLoginHandler}
-                  onToggleTheme={toggleThemeHandler}
-                />
-                <Products drawerWidth={drawerWidth} />
+              <Route path="/products" exact>
+                <ProductsPage drawerWidth={drawerWidth} />
               </Route>
             </Switch>
           </ThemeProvider>
