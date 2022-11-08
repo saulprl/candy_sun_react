@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+
 import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 
-import Login from "./components/auth/Login";
+import LoginPage from "./pages/Login";
+
+import LoginModal from "./components/auth/Login";
 import Header from "./components/layout/Header";
 import Products from "./components/products/Products";
 import ErrorBoundary from "./components/error/ErrorBoundary";
@@ -77,20 +81,27 @@ const App = () => {
         <FirestoreProvider sdk={firestoreInstance}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {showLogin && (
-              <Login
-                open={showLogin}
-                drawerWidth={drawerWidth}
-                onClose={closeLoginHandler}
-              />
-            )}
-            <Header
-              drawerWidth={drawerWidth}
-              onLogout={logoutHandler}
-              onShowLogin={showLoginHandler}
-              onToggleTheme={toggleThemeHandler}
-            />
-            <Products drawerWidth={drawerWidth} />
+            <Switch>
+              <Route path="/login" exact>
+                <LoginPage />
+              </Route>
+              <Route path="/" exact>
+                {showLogin && (
+                  <LoginModal
+                    open={showLogin}
+                    drawerWidth={drawerWidth}
+                    onClose={closeLoginHandler}
+                  />
+                )}
+                <Header
+                  drawerWidth={drawerWidth}
+                  onLogout={logoutHandler}
+                  onShowLogin={showLoginHandler}
+                  onToggleTheme={toggleThemeHandler}
+                />
+                <Products drawerWidth={drawerWidth} />
+              </Route>
+            </Switch>
           </ThemeProvider>
         </FirestoreProvider>
       </AuthProvider>
