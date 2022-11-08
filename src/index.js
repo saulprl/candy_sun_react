@@ -1,17 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+
 import { FirebaseAppProvider } from "reactfire";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import firebaseConfig from "./firebaseConfig";
+
+import reportWebVitals from "./reportWebVitals";
+
+import App from "./App";
+
+import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <App />
-    </FirebaseAppProvider>
+    <BrowserRouter>
+      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+        <App />
+      </FirebaseAppProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
