@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
@@ -14,6 +14,7 @@ import ErrorBoundary from "./components/error/ErrorBoundary";
 
 const App = () => {
   const drawerWidth = 240;
+  const history = useHistory();
   const [darkMode, setDarkMode] = useState(true);
   // const [showLogin, setShowLogin] = useState(false);
 
@@ -68,7 +69,8 @@ const App = () => {
   // };
 
   const logoutHandler = async (event) => {
-    signOut(authInstance);
+    await signOut(authInstance);
+    history.push("/login");
   };
 
   return (
@@ -78,16 +80,26 @@ const App = () => {
         <FirestoreProvider sdk={firestoreInstance}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Header
-              drawerWidth={drawerWidth}
-              onLogout={logoutHandler}
-              onToggleTheme={toggleThemeHandler}
-            />
             <Switch>
+              <Route path="/" exact>
+                <Redirect to="/home" />
+              </Route>
+              <Route path="/home" exact>
+                <Header
+                  drawerWidth={drawerWidth}
+                  onLogout={logoutHandler}
+                  onToggleTheme={toggleThemeHandler}
+                />
+              </Route>
               <Route path="/login" exact>
                 <LoginPage />
               </Route>
               <Route path="/products" exact>
+                <Header
+                  drawerWidth={drawerWidth}
+                  onLogout={logoutHandler}
+                  onToggleTheme={toggleThemeHandler}
+                />
                 <ProductsPage drawerWidth={drawerWidth} />
               </Route>
             </Switch>
