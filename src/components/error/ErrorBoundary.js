@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Box, CircularProgress, Typography } from "@mui/material";
+import SplashScreen from "../ui/SplashScreen";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -17,28 +17,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.errorInfo) {
-      return (
-        <Box
-          sx={{
-            pt: "37%",
-            pb: "100%",
-            width: "100%",
-            height: "100%",
-            minHeight: "100%",
-            display: "flex",
-            flexDirection: "column",
-            justifyItems: "center",
-            alignItems: "center",
-            background: "#232323",
-            color: "whitesmoke",
-          }}
-        >
-          <Typography sx={{ fontWeight: "bold", pb: "1rem" }} variant="h2">
-            Candy Sun
-          </Typography>
-          <CircularProgress disableShrink color="primary" />
-        </Box>
-      );
+      return <SplashScreen />;
     }
 
     return this.props.children;
