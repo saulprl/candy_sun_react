@@ -1,3 +1,4 @@
+import { useHistory } from "react-router-dom";
 import {
   Box,
   CssBaseline,
@@ -14,17 +15,43 @@ import {
   useTheme,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import PersonIcon from "@mui/icons-material/Person";
 import CategoryIcon from "@mui/icons-material/Category";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const ResponsiveDrawer = (props) => {
   const theme = useTheme();
+  const history = useHistory();
   const { drawerWidth } = props;
   // const { window } = props;
 
   // const container =
   //   window !== undefined ? () => window().document.body : undefined;
+
+  const drawerButtons = [
+    {
+      text: "Inicio",
+      icon: <HomeIcon />,
+      onClick: (event) => history.push("/"),
+    },
+    {
+      text: "Productos",
+      icon: <CategoryIcon />,
+      onClick: (event) => history.push("/products"),
+    },
+    {
+      text: "Empleados",
+      icon: <PersonIcon />,
+      onClick: (event) => history.push("/employees"),
+    },
+    {
+      text: "Ventas",
+      icon: <AttachMoneyIcon />,
+      onClick: (event) => history.push("/sales"),
+    },
+  ];
 
   const drawer = (
     <div>
@@ -52,13 +79,11 @@ const ResponsiveDrawer = (props) => {
         </Tooltip>
       </Toolbar>
       <Divider />
-      {["Home", "Products", "Employees", "Sales"].map((item, index) => (
+      {drawerButtons.map((item, index) => (
         <ListItem key={index} disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              {index % 2 === 0 ? <HomeIcon /> : <CategoryIcon />}
-            </ListItemIcon>
-            <ListItemText primary={item} />
+          <ListItemButton onClick={item.onClick}>
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
           </ListItemButton>
         </ListItem>
       ))}
