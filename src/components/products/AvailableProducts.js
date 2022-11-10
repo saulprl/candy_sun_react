@@ -45,6 +45,7 @@ const AvailableProducts = (props) => {
     <StyledCard
       sx={{
         width: { xs: "90%", lg: "70%" },
+        position: "relative",
         mt: "1rem",
         mr: "auto",
         ml: "auto",
