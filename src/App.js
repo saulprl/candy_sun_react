@@ -10,6 +10,7 @@ import LoginPage from "./pages/Login";
 import ProductsPage from "./pages/ProductsPage";
 
 import Header from "./components/layout/Header";
+import MainContent from "./components/ui/MainContent";
 import ErrorBoundary from "./components/error/ErrorBoundary";
 
 const App = () => {
@@ -100,7 +101,9 @@ const App = () => {
                   onLogout={logoutHandler}
                   onToggleTheme={toggleThemeHandler}
                 />
-                <ProductsPage drawerWidth={drawerWidth} />
+                <MainContent drawerWidth={drawerWidth}>
+                  <ProductsPage />
+                </MainContent>
               </Route>
             </Switch>
           </ThemeProvider>
