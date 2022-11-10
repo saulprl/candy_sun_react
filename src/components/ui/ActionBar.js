@@ -1,0 +1,63 @@
+import { Box, Collapse, IconButton } from "@mui/material";
+
+import StyledCard from "./StyledCard";
+
+import classes from "./ActionBar.module.css";
+
+const ActionBar = (props) => {
+  const { showSearchBar } = props;
+
+  const barMaxWidth = {
+    xs: showSearchBar ? "90%" : "55%",
+    sm: showSearchBar ? "90%" : "30%",
+    lg: showSearchBar ? "70%" : "15%",
+  };
+
+  const mappedActions = props.actions.map((item) => {
+    if (item.hiddenElement) {
+      return (
+        <Box key={item.label} sx={{ display: "flex", flexDirection: "row" }}>
+          <IconButton color={item.color} onClick={item.onClick}>
+            {item.icon}
+          </IconButton>
+          <Collapse orientation="horizontal" in={showSearchBar}>
+            {item.hiddenElement}
+          </Collapse>
+        </Box>
+      );
+    }
+
+    return (
+      <IconButton key={item.label} color={item.color} onClick={item.onClick}>
+        {item.icon}
+      </IconButton>
+    );
+  });
+
+  return (
+    // <Box>
+    <StyledCard
+      sx={{
+        // width: { xs: "90%", lg: "70%" },
+        position: "relative",
+        margin: "auto",
+        mt: "-15rem",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: { xs: "space-between", sm: "center" },
+        alignItems: "center",
+        maxWidth: barMaxWidth,
+        borderRadius: { xs: "32px", sm: "12px" },
+      }}
+    >
+      {/* <CardContent sx={{ pt: "8px", pb: "8px" }}> */}
+      {/* <Box sx={{}}> */}
+      {mappedActions}
+      {/* </Box> */}
+      {/* </CardContent> */}
+    </StyledCard>
+    // </Box>
+  );
+};
+
+export default ActionBar;
