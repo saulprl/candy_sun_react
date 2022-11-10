@@ -1,4 +1,3 @@
-// import { useState, useEffect, useCallback } from "react";
 import { CardContent, List, Skeleton, Stack } from "@mui/material";
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
@@ -6,8 +5,8 @@ import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
 
 const AvailableProducts = (props) => {
+  const { searchFilter } = props;
   const productsCollection = collection(useFirestore(), "products");
-  // console.log(productsRef);
   const productsQuery = query(productsCollection);
   const { status, data } = useFirestoreCollectionData(productsQuery, {
     idField: "id",
@@ -38,7 +37,15 @@ const AvailableProducts = (props) => {
       </Stack>
     );
   } else if (status === "success") {
-    content = data.map((p) => <ProductItem key={p.id} product={p} />);
+    if (searchFilter !== "") {
+      content = data
+        .filter((p) =>
+          p.title.toLowerCase().includes(searchFilter.toLowerCase())
+        )
+        .map((p) => <ProductItem key={p.id} product={p} />);
+    } else {
+      content = data.map((p) => <ProductItem key={p.id} product={p} />);
+    }
   }
 
   return (
