@@ -1,56 +1,90 @@
+import { useState } from "react";
 import { useSigninCheck } from "reactfire";
+import { useHistory } from "react-router-dom";
 
-import { Alert, Box } from "@mui/material";
+import { Alert, Box, Input } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import AvailableProducts from "./AvailableProducts";
-import ProductsSummary from "./ProductsSummary";
-import SplashScreen from "../ui/SplashScreen";
-import { Redirect } from "react-router-dom";
+import ActionBar from "../ui/ActionBar";
 
 const Products = (props) => {
-  const drawerWidth = props.drawerWidth;
+  const history = useHistory();
   const { status, data: signInCheckResult } = useSigninCheck();
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const searchActionHandler = (event) => {
+    setShowSearchBar((prevState) => !prevState);
+  };
+
+  const searchChangeHandler = (event) => {
+    console.log(event.target.value);
+  };
+
+  const actions = [
+    {
+      label: "Buscar producto",
+      color: "info",
+      icon: <SearchIcon />,
+      onClick: searchActionHandler,
+      hiddenElement: (
+        <Input
+          color="info"
+          // size="small"
+          // variant="standard"
+          // label="Buscar producto"
+          placeholder="Buscar producto"
+          onChange={searchChangeHandler}
+          sx={{ maxWidth: "90%" }}
+        />
+      ),
+    },
+    {
+      label: "Agregar producto",
+      color: "primary",
+      icon: <AddIcon />,
+      onClick: (event) => console.log("add"),
+    },
+    {
+      label: "Refrescar productos",
+      color: "success",
+      icon: <RefreshIcon />,
+      onClick: (event) => console.log("refresh"),
+    },
+  ];
 
   return (
     <>
-      {status === "loading" && <SplashScreen />}
+      <ActionBar actions={actions} showSearchBar={showSearchBar} />
+      {/* <ProductsSummary /> */}
       {status === "success" && !signInCheckResult.signedIn && (
-        <Redirect to="/login" />
-      )}
-      {status === "success" && signInCheckResult.signedIn && (
         <Box
           sx={{
-            width: { sm: `calc(100% - ${drawerWidth}px)` },
-            ml: { sm: `${drawerWidth}px` },
+            margin: "auto",
+            mt: "1.2rem",
+            width: { xs: "90%", lg: "65%" },
           }}
         >
-          <ProductsSummary />
-          {status === "success" && !signInCheckResult.signedIn && (
-            <Box
-              sx={{
-                margin: "auto",
-                mt: "1.2rem",
-                width: { xs: "90%", lg: "65%" },
-              }}
-            >
-              <Alert severity="error">You are not authenticated!</Alert>
-            </Box>
-          )}
-          {status === "loading" && (
-            <Box
-              sx={{
-                margin: "auto",
-                mt: "1.2rem",
-                width: { xs: "90%", lg: "65%" },
-              }}
-            >
-              <Alert severity="info">Authenticating...</Alert>
-            </Box>
-          )}
-          {status === "success" && signInCheckResult.signedIn && (
-            <AvailableProducts />
-          )}
+          <Alert severity="error">You are not authenticated!</Alert>
         </Box>
+      )}
+      {status === "loading" && (
+        <Box
+          sx={{
+            margin: "auto",
+            mt: "1.2rem",
+            width: { xs: "90%", lg: "65%" },
+          }}
+        >
+          <Alert severity="info">Authenticating...</Alert>
+        </Box>
+      )}
+      {status === "success" && signInCheckResult.signedIn && (
+        <>
+          <AvailableProducts />
+        </>
       )}
     </>
   );
