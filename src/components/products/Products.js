@@ -14,13 +14,15 @@ const Products = (props) => {
   const history = useHistory();
   const { status, data: signInCheckResult } = useSigninCheck();
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const [filter, setFilter] = useState("");
 
   const searchActionHandler = (event) => {
     setShowSearchBar((prevState) => !prevState);
+    setFilter("");
   };
 
   const searchChangeHandler = (event) => {
-    console.log(event.target.value);
+    setFilter(event.target.value);
   };
 
   const actions = [
@@ -32,11 +34,9 @@ const Products = (props) => {
       hiddenElement: (
         <Input
           color="info"
-          // size="small"
-          // variant="standard"
-          // label="Buscar producto"
           placeholder="Buscar producto"
           onChange={searchChangeHandler}
+          value={filter}
           sx={{ maxWidth: "90%" }}
         />
       ),
@@ -51,7 +51,7 @@ const Products = (props) => {
       label: "Refrescar productos",
       color: "success",
       icon: <RefreshIcon />,
-      onClick: (event) => console.log("refresh"),
+      onClick: (event) => window.location.reload(false),
     },
   ];
 
@@ -83,7 +83,7 @@ const Products = (props) => {
       )}
       {status === "success" && signInCheckResult.signedIn && (
         <>
-          <AvailableProducts />
+          <AvailableProducts searchFilter={filter} />
         </>
       )}
     </>
