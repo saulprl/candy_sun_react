@@ -34,22 +34,34 @@ const ResponsiveDrawer = (props) => {
     {
       text: "Inicio",
       icon: <HomeIcon />,
-      onClick: (event) => history.push("/"),
+      onClick: (event) => {
+        history.push("/");
+        props.onClose(event);
+      },
     },
     {
       text: "Productos",
       icon: <CategoryIcon />,
-      onClick: (event) => history.push("/products"),
+      onClick: (event) => {
+        history.push("/products");
+        props.onClose(event);
+      },
     },
     {
       text: "Empleados",
       icon: <PersonIcon />,
-      onClick: (event) => history.push("/employees"),
+      onClick: (event) => {
+        history.push("/employees");
+        props.onClose(event);
+      },
     },
     {
       text: "Ventas",
       icon: <AttachMoneyIcon />,
-      onClick: (event) => history.push("/sales"),
+      onClick: (event) => {
+        history.push("/sales");
+        props.onClose(event);
+      },
     },
   ];
 
