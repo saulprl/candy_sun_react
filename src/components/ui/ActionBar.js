@@ -1,8 +1,6 @@
-import { Box, Collapse, IconButton } from "@mui/material";
+import { Box, Collapse, IconButton, Tooltip } from "@mui/material";
 
 import StyledCard from "./StyledCard";
-
-import classes from "./ActionBar.module.css";
 
 const ActionBar = (props) => {
   const { showSearchBar } = props;
@@ -17,9 +15,11 @@ const ActionBar = (props) => {
     if (item.hiddenElement) {
       return (
         <Box key={item.label} sx={{ display: "flex", flexDirection: "row" }}>
-          <IconButton color={item.color} onClick={item.onClick}>
-            {item.icon}
-          </IconButton>
+          <Tooltip title={item.label} placement="top">
+            <IconButton color={item.color} onClick={item.onClick}>
+              {item.icon}
+            </IconButton>
+          </Tooltip>
           <Collapse orientation="horizontal" in={showSearchBar}>
             {item.hiddenElement}
           </Collapse>
@@ -28,9 +28,11 @@ const ActionBar = (props) => {
     }
 
     return (
-      <IconButton key={item.label} color={item.color} onClick={item.onClick}>
-        {item.icon}
-      </IconButton>
+      <Tooltip key={item.label} title={item.label} placement="top">
+        <IconButton color={item.color} onClick={item.onClick}>
+          {item.icon}
+        </IconButton>
+      </Tooltip>
     );
   });
 
