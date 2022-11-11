@@ -20,6 +20,7 @@ import SplashScreen from "../ui/SplashScreen";
 
 import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
+import Notification from "../ui/Notification";
 
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;
@@ -100,6 +101,7 @@ const Header = (props) => {
               </Toolbar>
             </AppBar>
           </header>
+          <Notification />
 
           <div className={styles["main-image"]}>
             <img src={candyImg} alt="Table full of delicious candy!" />
