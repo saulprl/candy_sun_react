@@ -1,6 +1,8 @@
 import { CardContent, List, Skeleton, Stack } from "@mui/material";
+
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
+
 import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
 
