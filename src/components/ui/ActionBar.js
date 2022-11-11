@@ -46,7 +46,10 @@ const ActionBar = (props) => {
         mt: "-15rem",
         display: "flex",
         flexDirection: "row",
-        justifyContent: { xs: "space-between", sm: "center" },
+        justifyContent: {
+          xs: mappedActions.length > 2 ? "space-around" : "space-evenly",
+          sm: "space-around",
+        },
         alignItems: "center",
         maxWidth: barMaxWidth,
         borderRadius: { xs: "32px", sm: "12px" },
