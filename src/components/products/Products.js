@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSigninCheck } from "reactfire";
 import { useHistory } from "react-router-dom";
 
@@ -12,9 +12,16 @@ import ActionBar from "../ui/ActionBar";
 
 const Products = (props) => {
   const history = useHistory();
+  const searchInputRef = useRef();
   const { status, data: signInCheckResult } = useSigninCheck();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    if (showSearchBar) {
+      searchInputRef.current.focus();
+    }
+  }, [showSearchBar]);
 
   const searchActionHandler = (event) => {
     setShowSearchBar((prevState) => !prevState);
@@ -33,6 +40,7 @@ const Products = (props) => {
       onClick: searchActionHandler,
       hiddenElement: (
         <Input
+          inputRef={searchInputRef}
           color="info"
           placeholder="Buscar producto"
           onChange={searchChangeHandler}
