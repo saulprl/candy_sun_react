@@ -1,8 +1,12 @@
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { useDispatch } from "react-redux";
+
 import { addDoc, collection } from "firebase/firestore";
 import { useFirestore } from "reactfire";
+
+import { isFuture, isPast } from "date-fns";
 
 import {
   Box,
@@ -23,9 +27,10 @@ import ActionBar from "../ui/ActionBar";
 import StyledCard from "../ui/StyledCard";
 
 import classes from "./ProductsForm.module.css";
-import { isFuture, isPast } from "date-fns";
+import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
 const ProductsForm = (props) => {
+  const dispatch = useDispatch();
   const productsCollectionRef = collection(useFirestore(), "products");
 
   const titleInputRef = useRef();
@@ -151,6 +156,13 @@ const ProductsForm = (props) => {
 
     if (validateFields(title, quantity, price, cost, calories)) {
       try {
+        dispatch(
+          showNotification({
+            status: "info",
+            title: "",
+            message: "Guardando producto...",
+          })
+        );
         await addDoc(productsCollectionRef, {
           title,
           quantity,
@@ -160,6 +172,13 @@ const ProductsForm = (props) => {
           dateOfPurchase: purchaseDate.value,
           expirationDate: expirationDate.value,
         });
+        dispatch(
+          ephimeralNotification({
+            status: "success",
+            title: "",
+            message: "Producto guardado.",
+          })
+        );
 
         history.push("/products");
       } catch (error) {
