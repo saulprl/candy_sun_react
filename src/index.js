@@ -10,16 +10,20 @@ import reportWebVitals from "./reportWebVitals";
 
 import App from "./App";
 
+import store from "./store/store";
+
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-        <App />
-      </FirebaseAppProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+          <App />
+        </FirebaseAppProvider>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 
