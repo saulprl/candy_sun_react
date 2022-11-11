@@ -8,8 +8,9 @@
 .details {
   margin-top: 0.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .details-row {
@@ -19,9 +20,9 @@
   margin-bottom: 0.5rem;
 }
 
-.details span {
+/* .details span {
   font-size: 1.1rem;
-}
+} */
 
 .actions {
   display: flex;
