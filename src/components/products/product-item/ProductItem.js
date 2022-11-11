@@ -6,6 +6,7 @@ import {
   Chip,
   Collapse,
   Divider,
+  Grid,
   IconButton,
   Tooltip,
   Typography,
@@ -14,6 +15,7 @@ import {
 import { ExpandMore, ExpandLess, Edit, Delete } from "@mui/icons-material";
 
 import styles from "./ProductItem.module.css";
+import { format } from "date-fns";
 
 const ProductItem = (props) => {
   const { product } = props;
@@ -39,54 +41,105 @@ const ProductItem = (props) => {
           </IconButton>
         </Box>
         <Collapse in={expanded}>
-          <Box component="div" className={styles.details}>
-            <Box
-              component="div"
-              className={styles["details-row"]}
-              sx={{ justifyContent: { sm: "space-between" } }}
-            >
-              <Tooltip title="Calories">
-                <Chip
-                  variant={chipVariant}
-                  color="info"
-                  label={product.calories}
-                />
-              </Tooltip>
+          <Grid
+            container
+            spacing={1}
+            sx={{
+              mt: "0.5rem",
+              display: { xs: "flex", sm: "none" },
+              pt: "0",
+              pl: { xs: "1rem", sm: "0", md: "3rem" },
+            }}
+          >
+            <Grid item xs={6} sm={3}>
               <Tooltip title="Price">
                 <Chip
                   variant={chipVariant}
-                  color="primary"
+                  color="success"
                   label={`$${product.price}`}
+                  sx={{ minWidth: "103px" }}
                 />
               </Tooltip>
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <Tooltip title="Purchase date">
+                <Chip
+                  variant={chipVariant}
+                  color="info"
+                  label={format(product.dateOfPurchase.toDate(), "dd MMM yyyy")}
+                  sx={{ minWidth: "103px" }}
+                />
+              </Tooltip>
+            </Grid>
+            <Grid item xs={6} sm={3}>
               <Tooltip title="Cost">
                 <Chip
                   variant={chipVariant}
                   color="error"
                   label={`$${product.cost}`}
+                  sx={{ minWidth: "103px" }}
                 />
               </Tooltip>
-              <Tooltip
-                title="Purchase date"
-                sx={{ display: { xs: "none", sm: "inline-flex" } }}
-              >
-                <Chip
-                  variant={chipVariant}
-                  color="info"
-                  label={product.dateOfPurchase}
-                />
-              </Tooltip>
-              <Tooltip
-                title="Expiration date"
-                sx={{ display: { xs: "none", sm: "inline-flex" } }}
-              >
+            </Grid>
+            <Grid item xs={6} sm={3}>
+              <Tooltip title="Expiration date">
                 <Chip
                   variant={chipVariant}
                   color="warning"
-                  label={product.expirationDate}
+                  label={format(product.expirationDate.toDate(), "dd MMM yyyy")}
+                  sx={{ minWidth: "103px" }}
                 />
               </Tooltip>
-            </Box>
+            </Grid>
+          </Grid>
+          <Box
+            component="div"
+            className={styles.details}
+            sx={{
+              display: { xs: "none", sm: "flex" },
+              justifyContent: { md: "space-evenly" },
+            }}
+          >
+            {/* <Box
+              component="div"
+              className={styles["details-row"]}
+              sx={{ justifyContent: { sm: "space-between" } }}
+            > */}
+            <Tooltip title="Price">
+              <Chip
+                variant={chipVariant}
+                color="success"
+                label={`$${product.price}`}
+              />
+            </Tooltip>
+            <Tooltip title="Cost">
+              <Chip
+                variant={chipVariant}
+                color="error"
+                label={`$${product.cost}`}
+              />
+            </Tooltip>
+            <Tooltip
+              title="Purchase date"
+              sx={{ display: { xs: "none", sm: "inline-flex" } }}
+            >
+              <Chip
+                variant={chipVariant}
+                color="info"
+                label={format(product.dateOfPurchase.toDate(), "dd MMM yyyy")}
+              />
+            </Tooltip>
+            <Tooltip
+              title="Expiration date"
+              sx={{ display: { xs: "none", sm: "inline-flex" } }}
+            >
+              <Chip
+                variant={chipVariant}
+                color="warning"
+                label={format(product.expirationDate.toDate(), "dd MMM yyyy")}
+              />
+            </Tooltip>
+            {/* </Box> */}
             <Box
               component="div"
               className={styles["details-row"]}
@@ -96,14 +149,14 @@ const ProductItem = (props) => {
                 <Chip
                   variant={chipVariant}
                   color="info"
-                  label={product.dateOfPurchase}
+                  label={format(product.dateOfPurchase.toDate(), "dd MMM yyyy")}
                 />
               </Tooltip>
               <Tooltip title="Expiration date">
                 <Chip
                   variant={chipVariant}
                   color="warning"
-                  label={product.expirationDate}
+                  label={format(product.expirationDate.toDate(), "dd MMM yyyy")}
                 />
               </Tooltip>
             </Box>
@@ -140,7 +193,7 @@ const ProductItem = (props) => {
           </Box>
         </Collapse>
       </Box>
-      <Divider sx={{ mb: "0.3rem" }} />
+      <Divider />
     </>
   );
 };
