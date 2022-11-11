@@ -160,6 +160,8 @@ const ProductsForm = (props) => {
           dateOfPurchase: purchaseDate.value,
           expirationDate: expirationDate.value,
         });
+
+        history.push("/products");
       } catch (error) {
         console.log(error);
       }
