@@ -45,7 +45,7 @@ const Products = (props) => {
       label: "Agregar producto",
       color: "primary",
       icon: <AddIcon />,
-      onClick: (event) => console.log("add"),
+      onClick: (event) => history.push("/products/add"),
     },
     {
       label: "Refrescar productos",
