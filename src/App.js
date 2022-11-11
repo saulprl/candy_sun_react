@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { setDefaultOptions } from "date-fns";
+import { es } from "date-fns/locale";
 
 import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
 import { getFirestore } from "firebase/firestore";
@@ -16,6 +21,7 @@ import ErrorBoundary from "./components/error/ErrorBoundary";
 const App = () => {
   const drawerWidth = 240;
   const history = useHistory();
+  setDefaultOptions({ locale: es });
   const [darkMode, setDarkMode] = useState(true);
   // const [showLogin, setShowLogin] = useState(false);
 
@@ -77,38 +83,40 @@ const App = () => {
   return (
     // <div className={styles["App-header"]}>
     <ErrorBoundary>
-      <AuthProvider sdk={authInstance}>
-        <FirestoreProvider sdk={firestoreInstance}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Switch>
-              <Route path="/" exact>
-                <Redirect to="/home" />
-              </Route>
-              <Route path="/home" exact>
-                <Header
-                  drawerWidth={drawerWidth}
-                  onLogout={logoutHandler}
-                  onToggleTheme={toggleThemeHandler}
-                />
-              </Route>
-              <Route path="/login" exact>
-                <LoginPage />
-              </Route>
-              <Route path="/products" exact>
-                <Header
-                  drawerWidth={drawerWidth}
-                  onLogout={logoutHandler}
-                  onToggleTheme={toggleThemeHandler}
-                />
-                <MainContent drawerWidth={drawerWidth}>
-                  <ProductsPage />
-                </MainContent>
-              </Route>
-            </Switch>
-          </ThemeProvider>
-        </FirestoreProvider>
-      </AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <AuthProvider sdk={authInstance}>
+          <FirestoreProvider sdk={firestoreInstance}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Switch>
+                <Route path="/" exact>
+                  <Redirect to="/home" />
+                </Route>
+                <Route path="/home" exact>
+                  <Header
+                    drawerWidth={drawerWidth}
+                    onLogout={logoutHandler}
+                    onToggleTheme={toggleThemeHandler}
+                  />
+                </Route>
+                <Route path="/login" exact>
+                  <LoginPage />
+                </Route>
+                <Route path="/products">
+                  <Header
+                    drawerWidth={drawerWidth}
+                    onLogout={logoutHandler}
+                    onToggleTheme={toggleThemeHandler}
+                  />
+                  <MainContent drawerWidth={drawerWidth}>
+                    <ProductsPage />
+                  </MainContent>
+                </Route>
+              </Switch>
+            </ThemeProvider>
+          </FirestoreProvider>
+        </AuthProvider>
+      </LocalizationProvider>
     </ErrorBoundary>
     // </div>
   );
