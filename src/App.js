@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+import { selectThemeMode } from "./store/uiSlice";
 
 import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
 import { getFirestore } from "firebase/firestore";
@@ -17,12 +20,13 @@ import ProductsPage from "./pages/products/ProductsPage";
 import Header from "./components/layout/Header";
 import MainContent from "./components/ui/MainContent";
 import ErrorBoundary from "./components/error/ErrorBoundary";
+import PrivateRoute from "./components/auth/PrivateRoute";
 
 const App = () => {
   const drawerWidth = 240;
   const history = useHistory();
+  const themeMode = useSelector(selectThemeMode);
   setDefaultOptions({ locale: es });
-  const [darkMode, setDarkMode] = useState(true);
   // const [showLogin, setShowLogin] = useState(false);
 
   const firebaseApp = useFirebaseApp();
@@ -31,8 +35,8 @@ const App = () => {
 
   const theme = createTheme({
     palette: {
-      mode: darkMode ? "dark" : "light",
-      ...(darkMode
+      mode: themeMode,
+      ...(themeMode === "dark"
         ? {
             primary: {
               main: "#d90d76",
@@ -63,9 +67,9 @@ const App = () => {
     },
   });
 
-  const toggleThemeHandler = (event) => {
-    setDarkMode((prevState) => !prevState);
-  };
+  // const toggleThemeHandler = (event) => {
+  //   setDarkMode((prevState) => !prevState);
+  // };
 
   // const showLoginHandler = (event) => {
   //   setShowLogin(true);
@@ -92,26 +96,24 @@ const App = () => {
                 <Route path="/" exact>
                   <Redirect to="/home" />
                 </Route>
-                <Route path="/home" exact>
-                  <Header
-                    drawerWidth={drawerWidth}
-                    onLogout={logoutHandler}
-                    onToggleTheme={toggleThemeHandler}
-                  />
-                </Route>
+                <PrivateRoute path="/home" exact>
+                  <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                </PrivateRoute>
                 <Route path="/login" exact>
                   <LoginPage />
                 </Route>
-                <Route path="/products">
-                  <Header
-                    drawerWidth={drawerWidth}
-                    onLogout={logoutHandler}
-                    onToggleTheme={toggleThemeHandler}
-                  />
+                <PrivateRoute path="/products">
+                  <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
                   <MainContent drawerWidth={drawerWidth}>
                     <ProductsPage />
                   </MainContent>
-                </Route>
+                </PrivateRoute>
+                <PrivateRoute path="/employees">
+                  <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                </PrivateRoute>
+                <PrivateRoute path="/sales">
+                  <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                </PrivateRoute>
               </Switch>
             </ThemeProvider>
           </FirestoreProvider>
