@@ -2,9 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { useHistory } from "react-router-dom";
 
-import { useSigninCheck } from "reactfire";
-
-import { Alert, Box, Input } from "@mui/material";
+import { Input } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -15,7 +13,6 @@ import ActionBar from "../ui/ActionBar";
 const Products = (props) => {
   const history = useHistory();
   const searchInputRef = useRef();
-  const { status, data: signInCheckResult } = useSigninCheck();
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [filter, setFilter] = useState("");
 
@@ -68,34 +65,7 @@ const Products = (props) => {
   return (
     <>
       <ActionBar actions={actions} showSearchBar={showSearchBar} />
-      {/* <ProductsSummary /> */}
-      {status === "success" && !signInCheckResult.signedIn && (
-        <Box
-          sx={{
-            margin: "auto",
-            mt: "1.2rem",
-            width: { xs: "90%", lg: "65%" },
-          }}
-        >
-          <Alert severity="error">You are not authenticated!</Alert>
-        </Box>
-      )}
-      {status === "loading" && (
-        <Box
-          sx={{
-            margin: "auto",
-            mt: "1.2rem",
-            width: { xs: "90%", lg: "65%" },
-          }}
-        >
-          <Alert severity="info">Authenticating...</Alert>
-        </Box>
-      )}
-      {status === "success" && signInCheckResult.signedIn && (
-        <>
-          <AvailableProducts searchFilter={filter} />
-        </>
-      )}
+      <AvailableProducts searchFilter={filter} />
     </>
   );
 };
