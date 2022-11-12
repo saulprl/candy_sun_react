@@ -1,5 +1,8 @@
 import { useHistory } from "react-router-dom";
 
+import { toggleTheme } from "../../store/uiSlice";
+import { useDispatch } from "react-redux";
+
 import {
   Box,
   CssBaseline,
@@ -25,6 +28,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 const ResponsiveDrawer = (props) => {
   const theme = useTheme();
   const history = useHistory();
+  const dispatch = useDispatch();
   const { drawerWidth } = props;
   // const { window } = props;
 
@@ -82,7 +86,7 @@ const ResponsiveDrawer = (props) => {
         <Tooltip
           title={theme.palette.mode === "dark" ? "Modo claro" : "Modo oscuro"}
         >
-          <IconButton onClick={props.onToggleTheme}>
+          <IconButton onClick={() => dispatch(toggleTheme())}>
             {theme.palette.mode === "dark" ? (
               <LightModeIcon />
             ) : (
