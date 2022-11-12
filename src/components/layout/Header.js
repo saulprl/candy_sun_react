@@ -11,6 +11,7 @@ import {
   useTheme,
   Skeleton,
   Tooltip,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Logout } from "@mui/icons-material";
@@ -88,7 +89,7 @@ const Header = (props) => {
               </IconButton>
             )} */}
                 {status === "success" && signInCheckResult.signedIn && (
-                  <Tooltip title="Log out">
+                  <Tooltip title="Cerrar sesión">
                     <IconButton
                       onClick={props.onLogout}
                       variant="text"
@@ -101,7 +102,14 @@ const Header = (props) => {
               </Toolbar>
             </AppBar>
           </header>
-          <Notification />
+          <Box
+            sx={{
+              width: { sm: `calc(100% - ${drawerWidth}px)` },
+              ml: { sm: `${drawerWidth}px` },
+            }}
+          >
+            <Notification drawerWidth={drawerWidth} />
+          </Box>
 
           <div className={styles["main-image"]}>
             <img src={candyImg} alt="Table full of delicious candy!" />
