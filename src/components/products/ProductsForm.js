@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { useFirestore } from "reactfire";
 
 import { isFuture, isPast } from "date-fns";
@@ -30,6 +30,8 @@ import classes from "./ProductsForm.module.css";
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
 const ProductsForm = (props) => {
+  const { product, productRef } = props;
+
   const dispatch = useDispatch();
   const firestore = useFirestore();
   const productsCollectionRef = collection(firestore, "products");
@@ -46,11 +48,11 @@ const ProductsForm = (props) => {
   const [costError, setCostError] = useState(null);
   const [caloriesError, setCaloriesError] = useState(null);
   const [purchaseDate, setPurchaseDate] = useState({
-    value: null,
+    value: product ? product.dateOfPurchase.toDate() : null,
     error: null,
   });
   const [expirationDate, setExpirationDate] = useState({
-    value: null,
+    value: product ? product.expirationDate.toDate() : null,
     error: null,
   });
   const history = useHistory();
@@ -160,23 +162,33 @@ const ProductsForm = (props) => {
         dispatch(
           showNotification({
             status: "info",
-            title: "",
             message: "Guardando producto...",
           })
         );
-        await addDoc(productsCollectionRef, {
-          title,
-          quantity,
-          price,
-          cost,
-          calories,
-          dateOfPurchase: purchaseDate.value,
-          expirationDate: expirationDate.value,
-        });
+        if (product) {
+          await updateDoc(productRef, {
+            title,
+            quantity,
+            price,
+            cost,
+            calories,
+            dateOfPurchase: purchaseDate.value,
+            expirationDate: expirationDate.value,
+          });
+        } else {
+          await addDoc(productsCollectionRef, {
+            title,
+            quantity,
+            price,
+            cost,
+            calories,
+            dateOfPurchase: purchaseDate.value,
+            expirationDate: expirationDate.value,
+          });
+        }
         dispatch(
           ephimeralNotification({
             status: "success",
-            title: "",
             message: "Producto guardado.",
           })
         );
@@ -203,10 +215,6 @@ const ProductsForm = (props) => {
     },
   ];
 
-  if (props.product) {
-    titleInputRef.current.value = props.product.title;
-  }
-
   return (
     <>
       <ActionBar actions={actions} />
@@ -229,7 +237,8 @@ const ProductsForm = (props) => {
                   error={titleError !== null}
                   onChange={titleChangeHandler}
                   fullWidth
-                  label="Título"
+                  label="Nombre"
+                  defaultValue={product ? product.title : ""}
                 />
               </Grid>
               <Grid item xs={6} sm={4}>
@@ -241,6 +250,7 @@ const ProductsForm = (props) => {
                   fullWidth
                   label="Cantidad"
                   type="number"
+                  defaultValue={product ? product.quantity : ""}
                 />
               </Grid>
               <Grid item xs={6} sm={4}>
@@ -252,6 +262,7 @@ const ProductsForm = (props) => {
                   fullWidth
                   label="Calorías"
                   type="number"
+                  defaultValue={product ? product.calories : ""}
                 />
               </Grid>
               <Grid item xs={6} sm={4}>
@@ -263,6 +274,7 @@ const ProductsForm = (props) => {
                     id="price"
                     type="number"
                     placeholder="Precio"
+                    defaultValue={product ? product.price : ""}
                     onChange={priceChangeHandler}
                     error={priceError !== null}
                     startAdornment={
@@ -287,6 +299,7 @@ const ProductsForm = (props) => {
                     id="cost"
                     type="number"
                     placeholder="Costo"
+                    defaultValue={product ? product.cost : ""}
                     onChange={costChangeHandler}
                     error={costError !== null}
                     startAdornment={
