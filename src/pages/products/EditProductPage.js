@@ -8,7 +8,11 @@ import { useFirestore, useFirestoreDocData } from "reactfire";
 
 import { CircularProgress } from "@mui/material";
 
-import { ephimeralNotification, showNotification } from "../../store/uiSlice";
+import {
+  ephimeralNotification,
+  setTitle,
+  showNotification,
+} from "../../store/uiSlice";
 
 import ProductsForm from "../../components/products/ProductsForm";
 
@@ -24,7 +28,6 @@ const EditProductPage = (props) => {
       dispatch(
         showNotification({
           status: "info",
-          title: "",
           message: "Cargando datos del producto...",
         })
       );
@@ -33,17 +36,19 @@ const EditProductPage = (props) => {
       dispatch(
         ephimeralNotification({
           status: "success",
-          title: "",
           message: "Datos descargados.",
         })
       );
+      dispatch(setTitle("Editar producto"));
     }
   }, [status, dispatch]);
 
   return (
     <>
       {status === "loading" && <CircularProgress />}
-      {status === "success" && <ProductsForm product={product} productRef={productRef} />}
+      {status === "success" && (
+        <ProductsForm product={product} productRef={productRef} />
+      )}
     </>
   );
 };
