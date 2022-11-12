@@ -89,9 +89,9 @@ const ProductItem = (props) => {
 
   return (
     <>
-      <Box component="li">
+      <Box component="div">
         <Box component="div" className={styles.header}>
-          <Tooltip title="Quantity" placement="top">
+          <Tooltip title="Cantidad" placement="top">
             <Chip variant={chipVariant} label={`x${product.quantity}`} />
           </Tooltip>
           <Typography variant="h6">{product.title}</Typography>
@@ -105,13 +105,14 @@ const ProductItem = (props) => {
             spacing={1}
             sx={{
               mt: "0.5rem",
-              display: { xs: "flex", sm: "none" },
+              display: { xs: "flex" },
               pt: "0",
-              pl: { xs: "1rem", sm: "0", md: "3rem" },
+              pl: { xs: "1rem", sm: "0", lg: "0.5rem" },
+              mb: { sm: "0.5rem" },
             }}
           >
-            <Grid item xs={6} sm={3}>
-              <Tooltip title="Price">
+            <Grid item xs={6}>
+              <Tooltip title="Precio">
                 <Chip
                   variant={chipVariant}
                   color="success"
@@ -120,8 +121,8 @@ const ProductItem = (props) => {
                 />
               </Tooltip>
             </Grid>
-            <Grid item xs={6} sm={3}>
-              <Tooltip title="Purchase date">
+            <Grid item xs={6}>
+              <Tooltip title="Fecha de adquisición">
                 <Chip
                   variant={chipVariant}
                   color="info"
@@ -130,8 +131,8 @@ const ProductItem = (props) => {
                 />
               </Tooltip>
             </Grid>
-            <Grid item xs={6} sm={3}>
-              <Tooltip title="Cost">
+            <Grid item xs={6}>
+              <Tooltip title="Costo">
                 <Chip
                   variant={chipVariant}
                   color="error"
@@ -140,8 +141,8 @@ const ProductItem = (props) => {
                 />
               </Tooltip>
             </Grid>
-            <Grid item xs={6} sm={3}>
-              <Tooltip title="Expiration date">
+            <Grid item xs={6}>
+              <Tooltip title="Fecha de expiración">
                 <Chip
                   variant={chipVariant}
                   color="warning"
@@ -155,7 +156,7 @@ const ProductItem = (props) => {
             component="div"
             className={styles.details}
             sx={{
-              display: { xs: "none", sm: "flex" },
+              display: { xs: "none" },
               justifyContent: { md: "space-evenly" },
             }}
           >
@@ -243,10 +244,20 @@ const ProductItem = (props) => {
               justifyContent: { sm: "space-evenly" },
             }}
           >
-            <Button variant="contained" color="secondary" startIcon={<Edit />}>
+            <Button
+              onClick={editProductHandler}
+              variant="contained"
+              color="secondary"
+              startIcon={<Edit />}
+            >
               Edit
             </Button>
-            <Button variant="contained" color="error" startIcon={<Delete />}>
+            <Button
+              onClick={deleteProductHandler}
+              variant="contained"
+              color="error"
+              startIcon={<Delete />}
+            >
               Delete
             </Button>
           </Box>
