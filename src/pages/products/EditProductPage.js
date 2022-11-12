@@ -1,3 +1,4 @@
+import { CircularProgress } from "@mui/material";
 import { doc } from "firebase/firestore";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -34,7 +35,12 @@ const EditProductPage = (props) => {
     }
   }, [status, dispatch]);
 
-  return <ProductsForm product={product} />;
+  return (
+    <>
+      {status === "loading" && <CircularProgress />}
+      {status === "success" && <ProductsForm product={product} productRef={productRef} />}
+    </>
+  );
 };
 
 export default EditProductPage;
