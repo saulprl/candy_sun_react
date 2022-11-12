@@ -249,16 +249,18 @@ const ProductItem = (props) => {
               variant="contained"
               color="secondary"
               startIcon={<Edit />}
+              size="small"
             >
-              Edit
+              Editar
             </Button>
             <Button
               onClick={deleteProductHandler}
               variant="contained"
               color="error"
               startIcon={<Delete />}
+              size="small"
             >
-              Delete
+              Eliminar
             </Button>
           </Box>
         </Collapse>
