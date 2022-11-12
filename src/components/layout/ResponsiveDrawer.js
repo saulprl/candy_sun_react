@@ -80,7 +80,7 @@ const ResponsiveDrawer = (props) => {
           Candy Sun
         </Typography>
         <Tooltip
-          title={theme.palette.mode === "dark" ? "Light mode" : "Dark mode"}
+          title={theme.palette.mode === "dark" ? "Modo claro" : "Modo oscuro"}
         >
           <IconButton onClick={props.onToggleTheme}>
             {theme.palette.mode === "dark" ? (
