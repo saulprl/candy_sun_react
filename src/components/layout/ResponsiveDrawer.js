@@ -35,7 +35,7 @@ const ResponsiveDrawer = (props) => {
       text: "Inicio",
       icon: <HomeIcon />,
       onClick: (event) => {
-        history.push("/");
+        history.push("/home");
         props.onClose(event);
       },
     },
