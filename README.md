@@ -13,4 +13,4 @@ I started learning React around August 2022 and I sort of got bored of the cours
 
 - [Candy Sun (the original!)](https://github.com/saulprl/candy-sun-angular), built on Angular (MEAN stack).
 - [Candy Sun, the mobile app](https://github.com/saulprl/candy_sun), built on Flutter & Dart.
-- [Candy Sun Flutter, as a web app!](https://github.com/saulprl/candy_sun_web). Same as before, but on the web.
+- [Candy Sun Flutter, as a web app!](https://github.com/saulprl/candy_sun_web) Same as before, but on the web.
