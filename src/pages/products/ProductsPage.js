@@ -1,4 +1,4 @@
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useLocation } from "react-router-dom";
 
 import { useSigninCheck } from "reactfire";
 
@@ -7,9 +7,18 @@ import EditProductPage from "./EditProductPage";
 
 import Products from "../../components/products/Products";
 import SplashScreen from "../../components/ui/SplashScreen";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setTitle } from "../../store/uiSlice";
 
 const ProductsPage = (props) => {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const { status, data: signInCheckResult } = useSigninCheck();
+
+  useEffect(() => {
+    dispatch(setTitle("Productos"));
+  }, [status, dispatch, location.pathname]);
 
   return (
     <>
