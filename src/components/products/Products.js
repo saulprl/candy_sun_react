@@ -56,7 +56,7 @@ const Products = (props) => {
     },
     {
       label: "Refrescar productos",
-      color: "success",
+      color: "secondary",
       icon: <RefreshIcon />,
       onClick: (event) => window.location.reload(false),
     },
