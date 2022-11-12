@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+import { selectHeaderTitle } from "../../store/uiSlice";
+
 import { useSigninCheck } from "reactfire";
 
 import {
@@ -27,6 +30,7 @@ const Header = (props) => {
   const drawerWidth = props.drawerWidth;
   const theme = useTheme();
   const history = useHistory();
+  const headerTitle = useSelector(selectHeaderTitle);
   const { status, data: signInCheckResult } = useSigninCheck();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -69,7 +73,7 @@ const Header = (props) => {
                   <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" flex="1" component="div">
-                  Candy Sun
+                  {headerTitle}
                 </Typography>
                 {status === "loading" && (
                   <Skeleton
