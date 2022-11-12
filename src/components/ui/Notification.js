@@ -5,6 +5,7 @@ import { Alert, Box, CircularProgress, Slide } from "@mui/material";
 import { selectNotification } from "../../store/uiSlice";
 
 const Notification = (props) => {
+  const { drawerWidth } = props;
   const notification = useSelector(selectNotification);
 
   return (
@@ -18,9 +19,17 @@ const Notification = (props) => {
         sx={{
           zIndex: "999",
           position: "absolute",
-          width: { xs: "90%", sm: "75%" },
+          width: {
+            xs: "90%",
+            sm: `calc(calc(100% - ${drawerWidth}px) * 0.75)`,
+            md: `calc(calc(100% - ${drawerWidth}px) * 0.6)`,
+          },
           mt: "3.5rem",
-          ml: { xs: "5%", sm: "12.5%" },
+          ml: {
+            xs: "5%",
+            sm: `calc(calc(100% - ${drawerWidth}px) * 0.125)`,
+            md: `calc(calc(100% - ${drawerWidth}px) * 0.2)`,
+          },
         }}
       >
         {notification === null && (
