@@ -1,89 +1,130 @@
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
-import { CardContent, Grid, Skeleton, Stack } from "@mui/material";
+import {
+  CardContent,
+  Grid,
+  Skeleton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
 
 const AvailableProducts = (props) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const { searchFilter } = props;
   const productsCollection = collection(useFirestore(), "products");
   const productsQuery = query(productsCollection);
   const { status, data } = useFirestoreCollectionData(productsQuery, {
     idField: "id",
   });
-  let content;
+
   if (status === "loading") {
-    content = (
-      <Stack spacing={1.5}>
-        <Skeleton
-          animation="wave"
-          variant="rounded"
-          sx={{ width: "100%" }}
-          height={60}
-        />
-        <Skeleton
-          animation="wave"
-          variant="rounded"
-          sx={{ width: "100%" }}
-          height={60}
-        />
-        <Skeleton
-          animation="wave"
-          variant="rounded"
-          sx={{ width: "100%" }}
-          height={60}
-        />
-        <Skeleton animation="wave" variant="text" sx={{ fontSize: "1rem" }} />
-      </Stack>
+    return (
+      <StyledCard
+        sx={{
+          width: { xs: "90%", lg: "70%" },
+          position: "relative",
+          margin: "auto",
+          mt: "1rem",
+          mb: "1rem",
+        }}
+      >
+        <CardContent>
+          <Grid container spacing={1}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Skeleton
+                animation="wave"
+                variant="rounded"
+                height={60}
+                sx={{ width: "100%" }}
+              />
+            </Grid>
+          </Grid>
+        </CardContent>
+      </StyledCard>
     );
-  } else if (status === "success") {
-    if (searchFilter !== "") {
-      content = data
-        .filter((p) =>
-          p.title.toLowerCase().includes(searchFilter.toLowerCase())
-        )
-        .map((p) => <ProductItem key={p.id} product={p} />);
-    } else {
-      content = data.map((p) => (
+  }
+
+  if (status === "success") {
+    const content = data
+      .filter((p) => p.title.toLowerCase().includes(searchFilter.toLowerCase()))
+      .map((p) => (
         <Grid item key={p.id} xs={12} sm={6} md={4}>
           <ProductItem product={p} />
         </Grid>
       ));
-    }
-  }
 
-  return (
-    <StyledCard
-      sx={{
-        width: { xs: "90%", lg: "70%" },
-        position: "relative",
-        mt: "1rem",
-        mr: "auto",
-        ml: "auto",
-        mb: "1rem",
-      }}
-    >
-      {status === "loading" && <CardContent>{content}</CardContent>}
-      {status === "success" && (
-        <CardContent sx={{ display: { sm: "none" } }}>
+    return (
+      <StyledCard
+        sx={{
+          width: { xs: "90%", lg: "70%" },
+          position: "relative",
+          mt: "1rem",
+          mr: "auto",
+          ml: "auto",
+          mb: "1rem",
+        }}
+      >
+        {isMobile && (
+          <CardContent>
+            <Grid container spacing={1}>
+              {content}
+            </Grid>
+          </CardContent>
+        )}
+        {!isMobile && (
           <Grid container spacing={1}>
             {content}
           </Grid>
-        </CardContent>
-      )}
-      {status === "success" && (
-        <Grid
-          container
-          spacing={1}
-          sx={{ display: { xs: "none", sm: "flex" } }}
-        >
-          {content}
-        </Grid>
-      )}
-    </StyledCard>
-  );
+        )}
+      </StyledCard>
+    );
+  }
 };
 
 export default AvailableProducts;
