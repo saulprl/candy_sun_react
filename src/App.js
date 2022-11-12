@@ -11,8 +11,8 @@ import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, signOut } from "firebase/auth";
 
-import LoginPage from "./pages/Login";
-import ProductsPage from "./pages/ProductsPage";
+import LoginPage from "./pages/auth/Login";
+import ProductsPage from "./pages/products/ProductsPage";
 
 import Header from "./components/layout/Header";
 import MainContent from "./components/ui/MainContent";
