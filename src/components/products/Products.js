@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
 
-import AvailableProducts from "./AvailableProducts";
+import ProductsList from "./ProductsList";
 import ActionBar from "../ui/ActionBar";
 
 const Products = (props) => {
@@ -65,7 +65,7 @@ const Products = (props) => {
   return (
     <>
       <ActionBar actions={actions} showSearchBar={showSearchBar} />
-      <AvailableProducts searchFilter={filter} />
+      <ProductsList searchFilter={filter} />
     </>
   );
 };
