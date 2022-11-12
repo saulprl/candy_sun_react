@@ -1,7 +1,7 @@
-import { CardContent, List, Skeleton, Stack } from "@mui/material";
-
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
+
+import { CardContent, Grid, Skeleton, Stack } from "@mui/material";
 
 import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
@@ -46,7 +46,11 @@ const AvailableProducts = (props) => {
         )
         .map((p) => <ProductItem key={p.id} product={p} />);
     } else {
-      content = data.map((p) => <ProductItem key={p.id} product={p} />);
+      content = data.map((p) => (
+        <Grid item key={p.id} xs={12} sm={6} md={4}>
+          <ProductItem product={p} />
+        </Grid>
+      ));
     }
   }
 
@@ -61,9 +65,23 @@ const AvailableProducts = (props) => {
         mb: "1rem",
       }}
     >
-      <CardContent>
-        <List>{content}</List>
-      </CardContent>
+      {status === "loading" && <CardContent>{content}</CardContent>}
+      {status === "success" && (
+        <CardContent sx={{ display: { sm: "none" } }}>
+          <Grid container spacing={1}>
+            {content}
+          </Grid>
+        </CardContent>
+      )}
+      {status === "success" && (
+        <Grid
+          container
+          spacing={1}
+          sx={{ display: { xs: "none", sm: "flex" } }}
+        >
+          {content}
+        </Grid>
+      )}
     </StyledCard>
   );
 };
