@@ -3,9 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const uiSlice = createSlice({
   name: "ui",
   initialState: {
+    headerTitle: "Inicio",
     notification: null,
   },
   reducers: {
+    setTitle: (state, action) => {
+      state.headerTitle = action.payload;
+    },
     showNotification: (state, action) => {
       state.notification = {
         status: action.payload.status,
@@ -26,8 +30,10 @@ export const ephimeralNotification = (notificationData) => (dispatch) => {
   dispatch(showNotification(notificationData));
 };
 
-export const { showNotification, clearNotification } = uiSlice.actions;
+export const { setTitle, showNotification, clearNotification } =
+  uiSlice.actions;
 
+export const selectHeaderTitle = (state) => state.ui.headerTitle;
 export const selectNotification = (state) => state.ui.notification;
 
 export default uiSlice.reducer;
