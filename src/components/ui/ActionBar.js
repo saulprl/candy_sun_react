@@ -7,8 +7,9 @@ const ActionBar = (props) => {
 
   const barMaxWidth = {
     xs: showSearchBar ? "90%" : "55%",
-    sm: showSearchBar ? "90%" : "30%",
-    lg: showSearchBar ? "70%" : "15%",
+    sm: showSearchBar ? "60%" : "30%",
+    md: showSearchBar ? "40%" : "20%",
+    lg: showSearchBar ? "28%" : "15%",
   };
 
   const mappedActions = props.actions.map((item) => {
@@ -37,10 +38,8 @@ const ActionBar = (props) => {
   });
 
   return (
-    // <Box>
     <StyledCard
       sx={{
-        // width: { xs: "90%", lg: "70%" },
         position: "relative",
         margin: "auto",
         mt: "-15rem",
@@ -52,16 +51,12 @@ const ActionBar = (props) => {
         },
         alignItems: "center",
         maxWidth: barMaxWidth,
-        borderRadius: { xs: "32px", sm: "12px" },
+        borderRadius: { xs: "32px", sm: "32px" },
+        padding: { sm: "0" },
       }}
     >
-      {/* <CardContent sx={{ pt: "8px", pb: "8px" }}> */}
-      {/* <Box sx={{}}> */}
       {mappedActions}
-      {/* </Box> */}
-      {/* </CardContent> */}
     </StyledCard>
-    // </Box>
   );
 };
 
