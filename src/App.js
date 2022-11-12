@@ -16,6 +16,7 @@ import { es } from "date-fns/locale";
 
 import LoginPage from "./pages/auth/Login";
 import ProductsPage from "./pages/products/ProductsPage";
+import EmployeesPage from "./pages/employees/EmployeesPage";
 
 import Header from "./components/layout/Header";
 import MainContent from "./components/ui/MainContent";
@@ -110,6 +111,9 @@ const App = () => {
                 </PrivateRoute>
                 <PrivateRoute path="/employees">
                   <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                  <MainContent drawerWidth={drawerWidth}>
+                    <EmployeesPage />
+                  </MainContent>
                 </PrivateRoute>
                 <PrivateRoute path="/sales">
                   <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
