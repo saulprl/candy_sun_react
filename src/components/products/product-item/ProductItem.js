@@ -5,6 +5,11 @@ import {
   Button,
   Chip,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
@@ -16,16 +21,67 @@ import { ExpandMore, ExpandLess, Edit, Delete } from "@mui/icons-material";
 
 import styles from "./ProductItem.module.css";
 import { format } from "date-fns";
+import { useHistory } from "react-router-dom";
+import { useFirestore } from "reactfire";
+import { deleteDoc, doc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import {
+  ephimeralNotification,
+  showNotification,
+} from "../../../store/uiSlice";
 
 const ProductItem = (props) => {
   const { product } = props;
-  const [expanded, setExpanded] = useState(false);
   const theme = useTheme();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const firestore = useFirestore();
+  const [expanded, setExpanded] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
 
   const chipVariant = theme.palette.mode === "dark" ? "outlined" : "contained";
 
   const toggleDetails = (event) => {
     setExpanded((prevState) => !prevState);
+  };
+
+  const editProductHandler = (event) => {
+    history.push(`/products/edit/${product.id}`);
+  };
+
+  const deleteProductHandler = (event) => {
+    setShowDialog(true);
+  };
+
+  const confirmDeleteHandler = async (event) => {
+    setShowDialog(false);
+    dispatch(
+      showNotification({
+        status: "info",
+        title: "",
+        message: "Eliminando el producto...",
+      })
+    );
+    try {
+      await deleteDoc(doc(firestore, "products", `${product.id}`));
+      dispatch(
+        ephimeralNotification({
+          status: "success",
+          message: "Producto eliminado.",
+        })
+      );
+    } catch (error) {
+      dispatch(
+        ephimeralNotification({
+          status: "error",
+          message: "Ocurrió un error al eliminar.",
+        })
+      );
+    }
+  };
+
+  const closeDialogHandler = (event) => {
+    setShowDialog(false);
   };
 
   return (
@@ -169,10 +225,10 @@ const ProductItem = (props) => {
               justifyContent: { xs: "flex-end" },
             }}
           >
-            <IconButton color="warning" edge="end">
+            <IconButton color="warning" edge="end" onClick={editProductHandler}>
               <Edit />
             </IconButton>
-            <IconButton color="error" edge="end">
+            <IconButton color="error" edge="end" onClick={deleteProductHandler}>
               <Delete />
             </IconButton>
           </Box>
@@ -193,6 +249,23 @@ const ProductItem = (props) => {
           </Box>
         </Collapse>
       </Box>
+      <Dialog open={showDialog} onClose={closeDialogHandler}>
+        <DialogTitle>¿Eliminar producto?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            El producto será eliminado permanentemente y no podrá ser
+            recuperado.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={confirmDeleteHandler} color="error">
+            Eliminar
+          </Button>
+          <Button onClick={closeDialogHandler} autoFocus color="secondary">
+            Cancelar
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Divider />
     </>
   );
