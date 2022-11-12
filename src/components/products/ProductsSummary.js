@@ -1,4 +1,5 @@
 import { CardContent, Typography } from "@mui/material";
+
 import StyledCard from "../ui/StyledCard";
 
 const ProductsSummary = (props) => {

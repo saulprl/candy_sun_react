@@ -1,5 +1,5 @@
-import { Check } from "@mui/icons-material";
 import { Button, CircularProgress } from "@mui/material";
+import { Check } from "@mui/icons-material";
 
 const LoadingButton = (props) => {
   if (props.status === "loading") {

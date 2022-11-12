@@ -17,10 +17,10 @@ import { Logout } from "@mui/icons-material";
 
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import SplashScreen from "../ui/SplashScreen";
+import Notification from "../ui/Notification";
 
 import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
-import Notification from "../ui/Notification";
 
 const Header = (props) => {
   const drawerWidth = props.drawerWidth;

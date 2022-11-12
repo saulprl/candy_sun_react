@@ -1,11 +1,16 @@
-import { CircularProgress } from "@mui/material";
-import { doc } from "firebase/firestore";
 import { useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+
+import { doc } from "firebase/firestore";
 import { useFirestore, useFirestoreDocData } from "reactfire";
-import ProductsForm from "../../components/products/ProductsForm";
+
+import { CircularProgress } from "@mui/material";
+
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
+
+import ProductsForm from "../../components/products/ProductsForm";
 
 const EditProductPage = (props) => {
   const params = useParams();

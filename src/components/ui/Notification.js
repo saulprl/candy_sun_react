@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
 
-import { selectNotification } from "../../store/uiSlice";
-
 import { Alert, Box, CircularProgress, Slide } from "@mui/material";
+
+import { selectNotification } from "../../store/uiSlice";
 
 const Notification = (props) => {
   const notification = useSelector(selectNotification);

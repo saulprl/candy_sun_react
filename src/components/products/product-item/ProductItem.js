@@ -1,5 +1,11 @@
 import { useState } from "react";
 
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { useFirestore } from "reactfire";
+import { deleteDoc, doc } from "firebase/firestore";
+
 import {
   Box,
   Button,
@@ -18,17 +24,14 @@ import {
   useTheme,
 } from "@mui/material";
 import { ExpandMore, ExpandLess, Edit, Delete } from "@mui/icons-material";
-
-import styles from "./ProductItem.module.css";
 import { format } from "date-fns";
-import { useHistory } from "react-router-dom";
-import { useFirestore } from "reactfire";
-import { deleteDoc, doc } from "firebase/firestore";
-import { useDispatch } from "react-redux";
+
 import {
   ephimeralNotification,
   showNotification,
 } from "../../../store/uiSlice";
+
+import styles from "./ProductItem.module.css";
 
 const ProductItem = (props) => {
   const { product } = props;

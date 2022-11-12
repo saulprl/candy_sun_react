@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useSigninCheck } from "reactfire";
+
 import { useHistory } from "react-router-dom";
+
+import { useSigninCheck } from "reactfire";
 
 import { Alert, Box, Input } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";

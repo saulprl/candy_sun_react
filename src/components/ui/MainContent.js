@@ -1,9 +1,10 @@
 import { useSigninCheck } from "reactfire";
 
+import { Redirect } from "react-router-dom";
+
 import { Box } from "@mui/material";
 
 import SplashScreen from "./SplashScreen";
-import { Redirect } from "react-router-dom";
 
 const MainContent = (props) => {
   const { status, data: signInCheckResult } = useSigninCheck();
