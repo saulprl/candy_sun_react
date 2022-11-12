@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 
+import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, signOut } from "firebase/auth";
+
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { setDefaultOptions } from "date-fns";
 import { es } from "date-fns/locale";
-
-import { AuthProvider, FirestoreProvider, useFirebaseApp } from "reactfire";
-import { getFirestore } from "firebase/firestore";
-import { getAuth, signOut } from "firebase/auth";
 
 import LoginPage from "./pages/auth/Login";
 import ProductsPage from "./pages/products/ProductsPage";
