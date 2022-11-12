@@ -211,7 +211,7 @@ const ProductsForm = (props) => {
       label: "Cancelar",
       color: "error",
       icon: <CancelIcon />,
-      onClick: (event) => history.goBack(),
+      onClick: (event) => history.push("/products"),
     },
   ];
 
