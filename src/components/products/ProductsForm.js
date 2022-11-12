@@ -31,7 +31,8 @@ import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
 const ProductsForm = (props) => {
   const dispatch = useDispatch();
-  const productsCollectionRef = collection(useFirestore(), "products");
+  const firestore = useFirestore();
+  const productsCollectionRef = collection(firestore, "products");
 
   const titleInputRef = useRef();
   const quantityInputRef = useRef();
@@ -201,6 +202,10 @@ const ProductsForm = (props) => {
       onClick: (event) => history.goBack(),
     },
   ];
+
+  if (props.product) {
+    titleInputRef.current.value = props.product.title;
+  }
 
   return (
     <>
