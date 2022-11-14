@@ -15,8 +15,10 @@ import { setDefaultOptions } from "date-fns";
 import { es } from "date-fns/locale";
 
 import LoginPage from "./pages/auth/Login";
+import DashboardPage from "./pages/dashboard/DashboardPage";
 import ProductsPage from "./pages/products/ProductsPage";
 import EmployeesPage from "./pages/employees/EmployeesPage";
+import SalesPage from "./pages/sales/SalesPage";
 
 import Header from "./components/layout/Header";
 import MainContent from "./components/ui/MainContent";
@@ -99,6 +101,9 @@ const App = () => {
                 </Route>
                 <PrivateRoute path="/home" exact>
                   <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                  <MainContent drawerWidth={drawerWidth}>
+                    <DashboardPage drawerWidth={drawerWidth} />
+                  </MainContent>
                 </PrivateRoute>
                 <Route path="/login" exact>
                   <LoginPage />
@@ -117,6 +122,9 @@ const App = () => {
                 </PrivateRoute>
                 <PrivateRoute path="/sales">
                   <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                  <MainContent drawerWidth={drawerWidth}>
+                    <SalesPage />
+                  </MainContent>
                 </PrivateRoute>
               </Switch>
             </ThemeProvider>
