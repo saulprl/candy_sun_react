@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+
+import { useDispatch } from "react-redux";
+import { ephimeralNotification, showNotification } from "../../store/uiSlice";
+
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
@@ -13,6 +18,7 @@ import EmployeeItem from "./employee-item/EmployeeItem";
 import StyledCard from "../ui/StyledCard";
 
 const EmployeesList = (props) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -23,6 +29,25 @@ const EmployeesList = (props) => {
   const { status, data } = useFirestoreCollectionData(employeesQuery, {
     idField: "id",
   });
+
+  useEffect(() => {
+    if (status === "loading") {
+      dispatch(
+        showNotification({
+          status: "info",
+          message: "Descargando datos...",
+        })
+      );
+    }
+    if (status === "success") {
+      dispatch(
+        ephimeralNotification({
+          status: "success",
+          message: "Datos descargados.",
+        })
+      );
+    }
+  }, [status, dispatch]);
 
   if (status === "loading") {
     return (
