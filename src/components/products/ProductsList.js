@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { ephimeralNotification, showNotification } from "../../store/uiSlice";
+
 import { collection, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
@@ -11,10 +14,12 @@ import {
 
 import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
+import { useEffect } from "react";
 
 const ProductsList = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const dispatch = useDispatch();
 
   const { searchFilter } = props;
   const productsCollection = collection(useFirestore(), "products");
@@ -22,6 +27,22 @@ const ProductsList = (props) => {
   const { status, data } = useFirestoreCollectionData(productsQuery, {
     idField: "id",
   });
+
+  useEffect(() => {
+    if (status === "loading") {
+      dispatch(
+        showNotification({ status: "info", message: "Descargando datos..." })
+      );
+    }
+    if (status === "success") {
+      dispatch(
+        ephimeralNotification({
+          status: "success",
+          message: "Datos descargados",
+        })
+      );
+    }
+  }, [status, dispatch]);
 
   if (status === "loading") {
     return (
