@@ -6,6 +6,7 @@ const uiSlice = createSlice({
     headerTitle: "Inicio",
     notification: null,
     themeMode: "dark",
+    saleDialog: null,
   },
   reducers: {
     setTitle: (state, action) => {
@@ -23,6 +24,16 @@ const uiSlice = createSlice({
     clearNotification: (state) => {
       state.notification = null;
     },
+    showSaleDialog: (state, action) => {
+      state.saleDialog = {
+        text: action.payload.text,
+        maxQty: action.payload.maxQty,
+        productId: action.payload.productId,
+      };
+    },
+    resetSaleDialog: (state) => {
+      state.saleDialog = null;
+    },
   },
 });
 
@@ -34,11 +45,18 @@ export const ephimeralNotification = (notificationData) => (dispatch) => {
   dispatch(showNotification(notificationData));
 };
 
-export const { setTitle, toggleTheme, showNotification, clearNotification } =
-  uiSlice.actions;
+export const {
+  setTitle,
+  toggleTheme,
+  showNotification,
+  clearNotification,
+  showSaleDialog,
+  resetSaleDialog,
+} = uiSlice.actions;
 
 export const selectHeaderTitle = (state) => state.ui.headerTitle;
 export const selectNotification = (state) => state.ui.notification;
+export const selectSaleDialog = (state) => state.ui.saleDialog;
 export const selectThemeMode = (state) => state.ui.themeMode;
 
 export default uiSlice.reducer;
