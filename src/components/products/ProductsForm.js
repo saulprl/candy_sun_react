@@ -129,6 +129,7 @@ const ProductsForm = (props) => {
           error: "La fecha de compra no puede ser en el futuro.",
         };
       });
+      formIsValid = false;
     }
     if (expirationDate.value === null) {
       setExpirationDate((prevState) => {
@@ -145,6 +146,7 @@ const ProductsForm = (props) => {
           error: "La fecha de expiración no puede haber ocurrido ya.",
         };
       });
+      formIsValid = false;
     }
 
     return formIsValid;
