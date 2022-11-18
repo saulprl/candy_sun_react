@@ -23,12 +23,19 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { ExpandMore, ExpandLess, Edit, Delete } from "@mui/icons-material";
+import {
+  ExpandMore,
+  ExpandLess,
+  Edit,
+  Delete,
+  Sell,
+} from "@mui/icons-material";
 import { format } from "date-fns";
 
 import {
   ephimeralNotification,
   showNotification,
+  showSaleDialog,
 } from "../../../store/uiSlice";
 
 import styles from "./ProductItem.module.css";
@@ -50,6 +57,16 @@ const ProductItem = (props) => {
 
   const editProductHandler = (event) => {
     history.push(`/products/edit/${product.id}`);
+  };
+
+  const sellProductHandler = (event) => {
+    dispatch(
+      showSaleDialog({
+        text: `Ingresa la cantidad de ${product.title} a vender.`,
+        maxQty: product.quantity,
+        productId: product.id,
+      })
+    );
   };
 
   const deleteProductHandler = (event) => {
@@ -225,18 +242,36 @@ const ProductItem = (props) => {
             component="div"
             className={styles.actions}
             sx={{
-              display: { sm: "none" },
-              justifyContent: { xs: "flex-end" },
+              // display: { sm: "none" },
+              justifyContent: "space-around",
+              mt: { xs: "0.5rem", sm: "0" },
             }}
           >
-            <IconButton color="warning" edge="end" onClick={editProductHandler}>
-              <Edit />
-            </IconButton>
-            <IconButton color="error" edge="end" onClick={deleteProductHandler}>
-              <Delete />
-            </IconButton>
+            <Tooltip title="Editar producto">
+              <IconButton
+                color="warning"
+                // edge="end"
+                onClick={editProductHandler}
+              >
+                <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Vender">
+              <IconButton color="success" onClick={sellProductHandler}>
+                <Sell />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Eliminar producto">
+              <IconButton
+                color="error"
+                // edge="end"
+                onClick={deleteProductHandler}
+              >
+                <Delete />
+              </IconButton>
+            </Tooltip>
           </Box>
-          <Box
+          {/* <Box
             component="div"
             className={styles.actions}
             sx={{
@@ -262,7 +297,7 @@ const ProductItem = (props) => {
             >
               Eliminar
             </Button>
-          </Box>
+          </Box> */}
         </Collapse>
       </Box>
       <Dialog open={showDialog} onClose={closeDialogHandler}>
