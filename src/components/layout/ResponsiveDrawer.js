@@ -30,10 +30,6 @@ const ResponsiveDrawer = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { drawerWidth } = props;
-  // const { window } = props;
-
-  // const container =
-  //   window !== undefined ? () => window().document.body : undefined;
 
   const drawerButtons = [
     {
@@ -43,6 +39,7 @@ const ResponsiveDrawer = (props) => {
         history.push("/home");
         props.onClose(event);
       },
+      isAdmin: false,
     },
     {
       text: "Productos",
@@ -51,6 +48,7 @@ const ResponsiveDrawer = (props) => {
         history.push("/products");
         props.onClose(event);
       },
+      isAdmin: false,
     },
     {
       text: "Empleados",
@@ -59,6 +57,7 @@ const ResponsiveDrawer = (props) => {
         history.push("/employees");
         props.onClose(event);
       },
+      isAdmin: true,
     },
     {
       text: "Ventas",
@@ -67,6 +66,7 @@ const ResponsiveDrawer = (props) => {
         history.push("/sales");
         props.onClose(event);
       },
+      isAdmin: false,
     },
   ];
 
