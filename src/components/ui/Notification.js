@@ -12,7 +12,7 @@ const Notification = (props) => {
     <Portal container={document.getElementById("notification")}>
       <Slide
         direction="down"
-        in={notification === null}
+        in={notification !== null}
         mountOnEnter
         unmountOnExit
       >
