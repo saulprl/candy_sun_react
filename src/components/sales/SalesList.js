@@ -1,3 +1,9 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import { collection, orderBy, query } from "firebase/firestore";
+
 import {
   CardContent,
   Grid,
@@ -5,13 +11,12 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { collection, orderBy, query } from "firebase/firestore";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useFirestore, useFirestoreCollectionData } from "reactfire";
+
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
-import StyledCard from "../ui/StyledCard";
+
 import SaleItem from "./sale-item/SaleItem";
+
+import StyledCard from "../ui/StyledCard";
 
 const SalesList = (props) => {
   const theme = useTheme();

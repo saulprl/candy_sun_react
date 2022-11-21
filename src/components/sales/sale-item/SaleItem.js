@@ -1,4 +1,11 @@
-import { Delete, ExpandLess, ExpandMore } from "@mui/icons-material";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { format } from "date-fns";
+
+import { useFirestore } from "reactfire";
+import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
+
 import {
   Box,
   Button,
@@ -15,23 +22,19 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { format } from "date-fns";
-import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useFirestore } from "reactfire";
+import { Delete, ExpandLess, ExpandMore } from "@mui/icons-material";
+
 import {
   ephimeralNotification,
   showNotification,
 } from "../../../store/uiSlice";
+
 import SaleProductItem from "./SaleProductItem";
 
 const SaleItem = (props) => {
   const { sale } = props;
 
   const theme = useTheme();
-  const history = useHistory();
   const dispatch = useDispatch();
   const firestore = useFirestore();
   const [expanded, setExpanded] = useState(false);

@@ -1,17 +1,16 @@
+import { useFirestore, useFirestoreDocDataOnce } from "reactfire";
+import { doc } from "firebase/firestore";
+
 import {
   Box,
   Card,
-  CardContent,
   Chip,
   Grid,
-  ListItem,
   Skeleton,
   Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
-import { doc } from "firebase/firestore";
-import { useFirestore, useFirestoreDocDataOnce } from "reactfire";
 
 const SaleProductItem = (props) => {
   const theme = useTheme();
