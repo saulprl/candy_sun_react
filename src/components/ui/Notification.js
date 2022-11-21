@@ -12,7 +12,7 @@ const Notification = (props) => {
     <Portal container={document.getElementById("notification")}>
       <Slide
         direction="down"
-        in={notification !== null}
+        in={notification === null}
         mountOnEnter
         unmountOnExit
       >
@@ -28,8 +28,8 @@ const Notification = (props) => {
             mt: "3.5rem",
             ml: {
               xs: "5%",
-              sm: `calc(calc(100% - ${drawerWidth}px) * 0.125)`,
-              md: `calc(calc(100% - ${drawerWidth}px) * 0.2)`,
+              sm: `calc(${drawerWidth}px + calc(calc(100% - ${drawerWidth}px) * 0.125))`,
+              md: `calc(${drawerWidth}px + calc(calc(100% - ${drawerWidth}px) * 0.2))`,
             },
           }}
         >
