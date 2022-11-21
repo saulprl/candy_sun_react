@@ -65,6 +65,7 @@ const ProductItem = (props) => {
         text: `Ingresa la cantidad de ${product.title} a vender.`,
         maxQty: product.quantity,
         productId: product.id,
+        price: product.price,
       })
     );
   };
