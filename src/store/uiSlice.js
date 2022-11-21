@@ -16,6 +16,11 @@ const uiSlice = createSlice({
       state.themeMode = state.themeMode === "dark" ? "light" : "dark";
     },
     showNotification: (state, action) => {
+      if (
+        state.notification !== null &&
+        state.notification.status === action.payload.status
+      )
+        return;
       state.notification = {
         status: action.payload.status,
         message: action.payload.message,
