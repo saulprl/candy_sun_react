@@ -29,6 +29,7 @@ const uiSlice = createSlice({
         text: action.payload.text,
         maxQty: action.payload.maxQty,
         productId: action.payload.productId,
+        productPrice: action.payload.price,
       };
     },
     resetSaleDialog: (state) => {
