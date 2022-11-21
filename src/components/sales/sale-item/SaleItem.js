@@ -1,8 +1,14 @@
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import { Delete, ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Box,
+  Button,
   Chip,
   Collapse,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   IconButton,
   Tooltip,
@@ -10,7 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { format } from "date-fns";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -51,11 +57,19 @@ const SaleItem = (props) => {
     );
 
     try {
+      for (let prod of sale.products) {
+        let productRef = doc(firestore, "products", prod.productId);
+        let productData = await getDoc(productRef);
+        await updateDoc(productRef, {
+          quantity: +productData.data().quantity + +prod.quantity,
+        });
+      }
+
       await deleteDoc(doc(firestore, "sales", sale.id));
       dispatch(
         ephimeralNotification({
           status: "success",
-          messsage: "Registro eliminado.",
+          message: "Registro eliminado.",
         })
       );
     } catch (error) {
@@ -82,6 +96,7 @@ const SaleItem = (props) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            mb: "0.5rem",
           }}
         >
           <Typography variant="body1">
@@ -96,7 +111,7 @@ const SaleItem = (props) => {
             </IconButton>
           </Tooltip>
         </Box>
-        <Collapse in={expanded} sx={{ mt: "0.5rem" }}>
+        <Collapse in={expanded}>
           <Grid container spacing={1}>
             {sale.products.map((p) => (
               <SaleProductItem
@@ -107,8 +122,38 @@ const SaleItem = (props) => {
               />
             ))}
           </Grid>
+          <Box
+            component="div"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              mt: "0.5rem",
+            }}
+          >
+            <IconButton color="error" onClick={deleteSaleHandler}>
+              <Delete />
+            </IconButton>
+          </Box>
         </Collapse>
       </Box>
+      <Dialog open={showDialog} onClose={closeDialogHandler}>
+        <DialogTitle>¿Eliminar registro?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            El registro será eliminado permanentemente y no podrá ser
+            recuperado. Los productos vendidos serán restablecidos.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={confirmDeleteHandler} color="error">
+            Eliminar
+          </Button>
+          <Button onClick={closeDialogHandler} autoFocus color="secondary">
+            Cancelar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
