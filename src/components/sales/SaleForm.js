@@ -1,4 +1,19 @@
-import { Add, Cancel, Remove, Save } from "@mui/icons-material";
+import { forwardRef, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { useHistory } from "react-router-dom";
+import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+
 import {
   Button,
   CardContent,
@@ -18,28 +33,16 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  orderBy,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { forwardRef, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useFirestore, useFirestoreCollectionData, useUser } from "reactfire";
+import { Add, Cancel, Remove, Save } from "@mui/icons-material";
+
 import {
   addItem,
   removeItem,
   resetCart,
   selectCart,
-  selectTotalItems,
 } from "../../store/cartSlice";
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
+
 import ActionBar from "../ui/ActionBar";
 import StyledCard from "../ui/StyledCard";
 
@@ -53,7 +56,6 @@ const SaleForm = () => {
 
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
-  const totalItems = useSelector(selectTotalItems);
 
   const user = useUser();
   const firestore = useFirestore();
@@ -71,7 +73,6 @@ const SaleForm = () => {
     }
   );
 
-  const [filter, setFilter] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
   const [showDialog, setShowDialog] = useState(false);
 
@@ -85,10 +86,6 @@ const SaleForm = () => {
   }, [cart, setTotalAmount]);
 
   const chipVariant = theme.palette.mode === "dark" ? "outlined" : "contained";
-
-  const searchChangeHandler = (event) => {
-    setFilter(event.target.value);
-  };
 
   const addToCart = (productId, productPrice, maxQuantity) => {
     dispatch(
