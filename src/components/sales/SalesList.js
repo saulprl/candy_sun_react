@@ -24,7 +24,6 @@ const SalesList = (props) => {
   const dispatch = useDispatch();
   const firestore = useFirestore();
 
-  const { searchFilter } = props;
   const salesCollection = collection(firestore, "sales");
   const salesQuery = query(salesCollection, orderBy("saleDate", "desc"));
   const { status, data } = useFirestoreCollectionData(salesQuery, {
