@@ -5,6 +5,7 @@ import { setTitle } from "../../store/uiSlice";
 import { Route, useLocation } from "react-router-dom";
 
 import Sales from "../../components/sales/Sales";
+import SaleForm from "../../components/sales/SaleForm";
 
 const SalesPage = (props) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const SalesPage = (props) => {
         exact
         render={() => <Sales drawerWidth={props.drawerWidth} />}
       />
+      <Route path="/sales/add" exact render={() => <SaleForm />} />
     </>
   );
 };
