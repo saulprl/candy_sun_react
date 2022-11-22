@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
-import { collection, query } from "firebase/firestore";
+import { collection, orderBy, query, where } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
 import {
@@ -23,7 +23,11 @@ const ProductsList = (props) => {
 
   const { searchFilter } = props;
   const productsCollection = collection(useFirestore(), "products");
-  const productsQuery = query(productsCollection);
+  const productsQuery = query(
+    productsCollection,
+    where("quantity", ">", 0),
+    orderBy("quantity", "desc")
+  );
   const { status, data } = useFirestoreCollectionData(productsQuery, {
     idField: "id",
   });
