@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { useFirestore } from "reactfire";
+import { useFirestore, useFirestoreDocDataOnce, useUser } from "reactfire";
 import { deleteDoc, doc } from "firebase/firestore";
 
 import {
@@ -19,6 +19,7 @@ import {
   Divider,
   Grid,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
   useTheme,
@@ -48,6 +49,12 @@ const ProductItem = (props) => {
   const firestore = useFirestore();
   const [expanded, setExpanded] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+
+  const user = useUser();
+  const { status: employeeStatus, data: employeeData } =
+    useFirestoreDocDataOnce(doc(firestore, "users", user.data.uid), {
+      idField: "id",
+    });
 
   const chipVariant = theme.palette.mode === "dark" ? "outlined" : "contained";
 
@@ -262,15 +269,26 @@ const ProductItem = (props) => {
                 <Sell />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Eliminar producto">
-              <IconButton
-                color="error"
-                // edge="end"
-                onClick={deleteProductHandler}
-              >
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            {employeeStatus === "loading" && (
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={15}
+                height={15}
+              />
+            )}
+            {employeeStatus === "success" &&
+              employeeData.role === "Administrador" && (
+                <Tooltip title="Eliminar producto">
+                  <IconButton
+                    color="error"
+                    // edge="end"
+                    onClick={deleteProductHandler}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              )}
           </Box>
           {/* <Box
             component="div"
