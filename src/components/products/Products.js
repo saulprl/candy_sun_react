@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { Input } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import SortIcon from "@mui/icons-material/Sort";
 
 import ProductsList from "./ProductsList";
 import ActionBar from "../ui/ActionBar";
@@ -55,11 +55,17 @@ const Products = (props) => {
       onClick: (event) => history.push("/products/add"),
     },
     {
-      label: "Refrescar productos",
+      label: "Ordenamiento",
       color: "secondary",
-      icon: <RefreshIcon />,
-      onClick: (event) => window.location.reload(false),
+      icon: <SortIcon />,
+      onClick: (event) => history.push("/filters/products"),
     },
+    // {
+    //   label: "Refrescar productos",
+    //   color: "secondary",
+    //   icon: <RefreshIcon />,
+    //   onClick: (event) => window.location.reload(false),
+    // },
   ];
 
   return (
