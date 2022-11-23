@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { format } from "date-fns";
 
-import { useFirestore } from "reactfire";
+import { useFirestore, useFirestoreDocDataOnce, useUser } from "reactfire";
 import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 
 import {
@@ -18,6 +18,7 @@ import {
   DialogTitle,
   Grid,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
   useTheme,
@@ -39,6 +40,12 @@ const SaleItem = (props) => {
   const firestore = useFirestore();
   const [expanded, setExpanded] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+
+  const user = useUser();
+  const { status: employeeStatus, data: employeeData } =
+    useFirestoreDocDataOnce(doc(firestore, "users", user.data.uid), {
+      idField: "id",
+    });
 
   const chipVariant = theme.palette.mode === "dark" ? "outlined" : "contained";
 
@@ -134,9 +141,20 @@ const SaleItem = (props) => {
               mt: "0.5rem",
             }}
           >
-            <IconButton color="error" onClick={deleteSaleHandler}>
-              <Delete />
-            </IconButton>
+            {employeeStatus === "loading" && (
+              <Skeleton
+                animation="wave"
+                variant="circular"
+                width={15}
+                height={15}
+              />
+            )}
+            {employeeStatus === "success" &&
+              employeeData.role === "Administrador" && (
+                <IconButton color="error" onClick={deleteSaleHandler}>
+                  <Delete />
+                </IconButton>
+              )}
           </Box>
         </Collapse>
       </Box>
