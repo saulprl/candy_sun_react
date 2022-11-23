@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom";
 import { Input } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import SortIcon from "@mui/icons-material/Sort";
+
 import ActionBar from "../ui/ActionBar";
 import EmployeesList from "./EmployeesList";
 
@@ -54,11 +55,17 @@ const Employees = (props) => {
       onClick: (event) => history.push("/employees/add"),
     },
     {
-      label: "Refrescar empleados",
+      label: "Ordenamiento",
       color: "secondary",
-      icon: <RefreshIcon />,
-      onClick: (event) => window.location.reload(false),
+      icon: <SortIcon />,
+      onClick: (event) => history.push("/filters/employees"),
     },
+    // {
+    //   label: "Refrescar empleados",
+    //   color: "secondary",
+    //   icon: <RefreshIcon />,
+    //   onClick: (event) => window.location.reload(false),
+    // },
   ];
 
   return (
