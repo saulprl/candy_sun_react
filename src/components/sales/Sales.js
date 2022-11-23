@@ -1,7 +1,8 @@
 import { useHistory } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
-import RefreshIcon from "@mui/icons-material/Refresh";
+import SortIcon from "@mui/icons-material/Sort";
+
 import ActionBar from "../ui/ActionBar";
 import SalesList from "./SalesList";
 
@@ -16,11 +17,17 @@ const Sales = () => {
       onClick: (event) => history.push("/sales/add"),
     },
     {
-      label: "Refrescar ventas",
+      label: "Ordenamiento",
       color: "secondary",
-      icon: <RefreshIcon />,
-      onClick: (event) => window.location.reload(false),
+      icon: <SortIcon />,
+      onClick: (event) => history.push("/filters/sales"),
     },
+    // {
+    //   label: "Refrescar ventas",
+    //   color: "secondary",
+    //   icon: <RefreshIcon />,
+    //   onClick: (event) => window.location.reload(false),
+    // },
   ];
 
   return (
