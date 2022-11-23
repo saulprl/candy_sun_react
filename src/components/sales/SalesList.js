@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection, orderBy, query } from "firebase/firestore";
@@ -17,15 +17,21 @@ import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 import SaleItem from "./sale-item/SaleItem";
 
 import StyledCard from "../ui/StyledCard";
+import { selectSalesFilter } from "../../store/filtersSlice";
 
 const SalesList = (props) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const dispatch = useDispatch();
-  const firestore = useFirestore();
 
+  const dispatch = useDispatch();
+  const salesFilter = useSelector(selectSalesFilter);
+
+  const firestore = useFirestore();
   const salesCollection = collection(firestore, "sales");
-  const salesQuery = query(salesCollection, orderBy("saleDate", "desc"));
+  const salesQuery = query(
+    salesCollection,
+    orderBy(salesFilter.field, salesFilter.order)
+  );
   const { status, data } = useFirestoreCollectionData(salesQuery, {
     idField: "id",
   });
