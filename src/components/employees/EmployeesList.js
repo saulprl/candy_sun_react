@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
-import { collection, query } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
 import {
@@ -16,16 +16,23 @@ import {
 
 import EmployeeItem from "./employee-item/EmployeeItem";
 import StyledCard from "../ui/StyledCard";
+import { selectEmployeesFilter } from "../../store/filtersSlice";
 
 const EmployeesList = (props) => {
-  const dispatch = useDispatch();
+  const { searchFilter } = props;
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { searchFilter } = props;
+  const dispatch = useDispatch();
+  const employeesFilter = useSelector(selectEmployeesFilter);
+
   const firestore = useFirestore();
   const employeesCollection = collection(firestore, "users");
-  const employeesQuery = query(employeesCollection);
+  const employeesQuery = query(
+    employeesCollection,
+    orderBy(employeesFilter.field, employeesFilter.order)
+  );
   const { status, data } = useFirestoreCollectionData(employeesQuery, {
     idField: "id",
   });
