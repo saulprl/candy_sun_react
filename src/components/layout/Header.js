@@ -1,7 +1,8 @@
 import { useState } from "react";
-
 import { useSelector } from "react-redux";
-import { selectHeaderTitle } from "../../store/uiSlice";
+
+import { doc } from "firebase/firestore";
+import { useFirestore, useFirestoreDocDataOnce, useUser } from "reactfire";
 
 import {
   AppBar,
@@ -9,14 +10,15 @@ import {
   Toolbar,
   Typography,
   useTheme,
-  Tooltip,
   Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Logout } from "@mui/icons-material";
+
+import { selectHeaderTitle } from "../../store/uiSlice";
 
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import Notification from "../ui/Notification";
+import MenuButton from "../ui/MenuButton";
 
 import styles from "./Header.module.css";
 import candyImg from "../../assets/various-candy.webp";
@@ -26,6 +28,16 @@ const Header = (props) => {
   const theme = useTheme();
   const headerTitle = useSelector(selectHeaderTitle);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const user = useUser();
+
+  const firestore = useFirestore();
+  const { status, data } = useFirestoreDocDataOnce(
+    doc(firestore, "users", user.data.uid),
+    {
+      idField: "id",
+    }
+  );
 
   const toggleDrawerHandler = () => {
     setMobileOpen((prevState) => !prevState);
@@ -60,7 +72,14 @@ const Header = (props) => {
             <Typography variant="h6" flex="1" component="div">
               {headerTitle}
             </Typography>
-            <Tooltip title="Cerrar sesión">
+            {status === "success" && (
+              <MenuButton
+                displayName={data.displayName}
+                role={data.role}
+                onLogout={props.onLogout}
+              />
+            )}
+            {/* <Tooltip title="Cerrar sesión">
               <IconButton
                 onClick={props.onLogout}
                 variant="text"
@@ -68,7 +87,7 @@ const Header = (props) => {
               >
                 <Logout />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </Toolbar>
         </AppBar>
       </header>
