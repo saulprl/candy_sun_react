@@ -25,6 +25,7 @@ import MainContent from "./components/ui/MainContent";
 import ErrorBoundary from "./components/error/ErrorBoundary";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import SaleDialog from "./components/ui/SaleDialog";
+import FiltersPage from "./pages/filters/FiltersPage";
 
 const App = () => {
   const drawerWidth = 240;
@@ -109,6 +110,12 @@ const App = () => {
                 <Route path="/login" exact>
                   <LoginPage />
                 </Route>
+                <PrivateRoute path="/filters">
+                  <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
+                  <MainContent drawerWidth={drawerWidth}>
+                    <FiltersPage />
+                  </MainContent>
+                </PrivateRoute>
                 <PrivateRoute path="/products">
                   <Header drawerWidth={drawerWidth} onLogout={logoutHandler} />
                   <MainContent drawerWidth={drawerWidth}>
