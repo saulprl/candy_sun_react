@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ephimeralNotification, showNotification } from "../../store/uiSlice";
 
 import { collection, orderBy, query, where } from "firebase/firestore";
@@ -15,18 +15,22 @@ import {
 import StyledCard from "../ui/StyledCard";
 import ProductItem from "./product-item/ProductItem";
 import { useEffect } from "react";
+import { selectProductsFilter } from "../../store/filtersSlice";
 
 const ProductsList = (props) => {
+  const { searchFilter } = props;
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const dispatch = useDispatch();
 
-  const { searchFilter } = props;
+  const dispatch = useDispatch();
+  const productsFilter = useSelector(selectProductsFilter);
+
   const productsCollection = collection(useFirestore(), "products");
   const productsQuery = query(
     productsCollection,
     where("quantity", ">", 0),
-    orderBy("quantity", "desc")
+    orderBy(productsFilter.field, productsFilter.order)
   );
   const { status, data } = useFirestoreCollectionData(productsQuery, {
     idField: "id",
